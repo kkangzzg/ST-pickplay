@@ -1,0 +1,224 @@
+<div class="pp-settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>🎞️ 픽플레이</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            <div class="pp-hero">
+                <label class="pp-hero-main" for="pp_enabled">
+                    <span class="pp-hero-text">
+                        <span class="pp-hero-title">확장 실행</span>
+                        <span class="pp-hero-sub">픽플레이 화면으로 바꿔요</span>
+                    </span>
+                    <input type="checkbox" id="pp_enabled" class="pp-switch">
+                </label>
+                <div class="pp-hero-tip">
+                    <span><kbd>Esc</kbd> 나가기</span>
+                    <span><kbd>Space</kbd><kbd>→</kbd> 다음</span>
+                    <span><kbd>←</kbd> 이전</span>
+                    <span><kbd>휠</kbd> 이전·다음</span>
+                    <span><kbd>L</kbd> 로그</span>
+                    <span><kbd>A</kbd> 자동</span>
+                    <span><kbd>S</kbd> 스킵</span>
+                    <span><kbd>H</kbd> 숨기기</span>
+                    <span><code>/pp</code> 켜기·끄기</span>
+                </div>
+            </div>
+
+            <div class="pp-tabbar" role="tablist">
+                <button type="button" class="pp-tab-btn" data-tab="status" role="tab"><i class="fa-solid fa-list-check"></i><span>상태창</span></button>
+                <button type="button" class="pp-tab-btn" data-tab="screen" role="tab"><i class="fa-solid fa-display"></i><span>화면</span></button>
+                <button type="button" class="pp-tab-btn" data-tab="play" role="tab"><i class="fa-solid fa-forward"></i><span>진행</span></button>
+                <button type="button" class="pp-tab-btn" data-tab="prompt" role="tab"><i class="fa-solid fa-scroll"></i><span>프롬프트</span></button>
+            </div>
+
+            <section class="pp-sec" data-tab="status">
+                <div class="pp-sec-head"><i class="fa-solid fa-list-check"></i><span>커스텀 상태창</span></div>
+                <div class="pp-set-desc">새 채팅 기본값이에요. 이 채팅만 바꾸려면 픽플레이 ⋯ → STATUS</div>
+                <div id="pp_items"></div>
+                <div id="pp_add_item" class="menu_button menu_button_icon pp-add">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>항목 추가</span>
+                </div>
+                <div class="pp-sec-head"><i class="fa-solid fa-star"></i><span>시스템 상태창</span></div>
+                <label class="pp-set-row pp-check" for="pp_rec_aff">
+                    <span>호감도</span>
+                    <input type="checkbox" id="pp_rec_aff" class="pp-switch">
+                </label>
+                <label class="pp-set-row pp-check" for="pp_rec_mind">
+                    <span>카오모지 + 속마음</span>
+                    <input type="checkbox" id="pp_rec_mind" class="pp-switch">
+                </label>
+                <div id="pp_aff_sec">
+                <div class="pp-sec-head"><i class="fa-solid fa-heart"></i><span>호감도</span></div>
+                <div class="pp-set-row">
+                    <label for="pp_affinity_display">상태창 표시</label>
+                    <select id="pp_affinity_display" class="text_pole">
+                        <option value="tier">단계 이름만</option>
+                        <option value="number">숫자까지</option>
+                    </select>
+                </div>
+                <div class="pp-sub-label">호감도 단계</div>
+                <div class="pp-set-desc">점수(0~100)가 이 값 이상이면 그 단계</div>
+                <div id="pp_tiers"></div>
+                <div class="pp-btn-row">
+                    <div id="pp_add_tier" class="menu_button menu_button_icon"><i class="fa-solid fa-plus"></i><span>단계 추가</span></div>
+                    <div id="pp_reset_tiers" class="menu_button menu_button_icon"><i class="fa-solid fa-rotate-left"></i><span>기본값</span></div>
+                </div>
+                <div class="pp-set-desc">공략 정보(속도 분석·판정 메모)는 픽플레이 ⋯ → STATUS에서.</div>
+                </div>
+            </section>
+
+            <section class="pp-sec" data-tab="screen">
+                <div class="pp-sec-head"><i class="fa-solid fa-display"></i><span>화면</span></div>
+                <div class="pp-set-row">
+                    <label for="pp_dialogue_style">테마</label>
+                    <select id="pp_dialogue_style" class="text_pole">
+                        <option value="box">클래식</option>
+                        <option value="retro">미연시</option>
+                        <option value="sub">서브컬처</option>
+                        <option value="cinema">시네마</option>
+                    </select>
+                </div>
+                <div class="pp-set-row">
+                    <label for="pp_accent">메인 색<small>모든 테마·이 설정창의 강조색</small></label>
+                    <span class="pp-accent-pick">
+                        <button type="button" class="pp-swatch" data-color="#f2a7b8" title="분홍" style="--c:#f2a7b8"></button>
+                        <button type="button" class="pp-swatch" data-color="#f6a38c" title="산호" style="--c:#f6a38c"></button>
+                        <button type="button" class="pp-swatch" data-color="#ffc56e" title="호박" style="--c:#ffc56e"></button>
+                        <button type="button" class="pp-swatch" data-color="#8fd8c0" title="민트" style="--c:#8fd8c0"></button>
+                        <button type="button" class="pp-swatch" data-color="#9cc8f0" title="하늘" style="--c:#9cc8f0"></button>
+                        <button type="button" class="pp-swatch" data-color="#c4b0f0" title="라벤더" style="--c:#c4b0f0"></button>
+                        <input type="color" id="pp_accent" title="직접 고르기">
+                    </span>
+                </div>
+                <div class="pp-set-row">
+                    <label for="pp_font_size">대사 글자 크기</label>
+                    <select id="pp_font_size" class="text_pole">
+                        <option value="18">작게</option>
+                        <option value="21">보통</option>
+                        <option value="24">크게</option>
+                        <option value="27">아주 크게</option>
+                    </select>
+                </div>
+                <div class="pp-set-row">
+                    <label for="pp_window_alpha">대사창 진하기</label>
+                    <span class="pp-range">
+                        <input type="range" id="pp_window_alpha" min="40" max="100" step="5">
+                        <span id="pp_window_alpha_val"></span>
+                    </span>
+                </div>
+                <div class="pp-set-row">
+                    <label>메뉴 바깥 버튼<small>⋯ 옆에 둘 3개</small></label>
+                </div>
+                <div class="pp-pin-list">
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="skip">SKIP</label>
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="log">LOG</label>
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="cg">CG ↻</label>
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="auto">AUTO</label>
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="text">TEXT</label>
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="hide">HIDE</label>
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="qr">QR</label>
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="theme">THEME</label>
+                    <label><input type="checkbox" class="pp-pin pp-switch pp-sm" value="chat">STATUS</label>
+                </div>
+                <div id="pp_menu_outer_hint" class="pp-set-desc"></div>
+                <label class="pp-sec-head pp-head-toggle" for="pp_screen_fx">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i><span>화면효과</span>
+                    <input type="checkbox" id="pp_screen_fx" class="pp-switch">
+                </label>
+                <label class="pp-sec-head pp-head-toggle" for="pp_sound">
+                    <i class="fa-solid fa-music"></i><span>BGM·효과음</span>
+                    <input type="checkbox" id="pp_sound" class="pp-switch">
+                </label>
+                <div id="pp_sound_detail">
+                    <div class="pp-set-desc">파일 이름이 AI가 고르는 이름이에요 (예: calm, comic, sad, tense, romantic, mystery / door_open, footsteps). mp3·ogg·wav·m4a</div>
+                    <div class="pp-set-row">
+                        <label>BGM 폴더<small id="pp_bgm_path"></small></label>
+                        <div id="pp_open_bgm" class="menu_button menu_button_icon"><i class="fa-solid fa-copy"></i><span>경로 복사</span></div>
+                    </div>
+                    <div class="pp-set-row">
+                        <label>효과음 폴더<small id="pp_sfx_path"></small></label>
+                        <div id="pp_open_sfx" class="menu_button menu_button_icon"><i class="fa-solid fa-copy"></i><span>경로 복사</span></div>
+                    </div>
+                    <div class="pp-set-row">
+                        <label>찾은 파일<small id="pp_sound_count"></small></label>
+                        <div id="pp_sound_refresh" class="menu_button menu_button_icon" title="폴더에 파일을 넣은 뒤 누르세요"><i class="fa-solid fa-rotate"></i><span>다시 찾기</span></div>
+                    </div>
+                    <div class="pp-set-row">
+                        <label for="pp_bgm_volume">BGM 음량</label>
+                        <span class="pp-range">
+                            <input type="range" id="pp_bgm_volume" min="0" max="100" step="5">
+                            <span id="pp_bgm_volume_val"></span>
+                        </span>
+                    </div>
+                    <div class="pp-set-row">
+                        <label for="pp_sfx_volume">효과음 음량</label>
+                        <span class="pp-range">
+                            <input type="range" id="pp_sfx_volume" min="0" max="100" step="5">
+                            <span id="pp_sfx_volume_val"></span>
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pp-sec" data-tab="play">
+                <div class="pp-sec-head"><i class="fa-solid fa-forward"></i><span>진행</span></div>
+                <div class="pp-set-row">
+                    <label for="pp_reply_length">답변 분량<small>모델·프리셋에 따라 넘칠 수 있어요</small></label>
+                    <select id="pp_reply_length" class="text_pole">
+                        <option value="preset">프리셋에 맡김</option>
+                        <option value="short">짧게</option>
+                        <option value="medium">보통</option>
+                        <option value="long">길게</option>
+                    </select>
+                </div>
+                <label class="pp-set-row pp-check" for="pp_choices">
+                    <span>선택지<small>끄면 버튼 없이 입력칸만</small></span>
+                    <input type="checkbox" id="pp_choices" class="pp-switch">
+                </label>
+                <label class="pp-set-row pp-check" for="pp_ready_sound">
+                    <span>답장 알림음<small>답장·그림·번역이 다 나오면</small></span>
+                    <input type="checkbox" id="pp_ready_sound" class="pp-switch">
+                </label>
+                <div class="pp-set-row">
+                    <label for="pp_typing">타이핑 속도</label>
+                    <span class="pp-range">
+                        <input type="range" id="pp_typing" min="10" max="100" step="5" aria-describedby="pp_typing_val">
+                        <span id="pp_typing_val"></span>
+                    </span>
+                </div>
+                <div class="pp-set-row">
+                    <label for="pp_auto">AUTO 대기<small>문장이 길면 조금 더 기다려요</small></label>
+                    <span class="pp-range">
+                        <input type="range" id="pp_auto" min="0.5" max="5" step="0.5" aria-describedby="pp_auto_val">
+                        <span id="pp_auto_val"></span>
+                    </span>
+                </div>
+            </section>
+
+            <section class="pp-sec" data-tab="prompt">
+                <div class="pp-sec-head"><i class="fa-solid fa-scroll"></i><span>AI에게 보내는 지시</span></div>
+                <div class="pp-set-desc">매 답장에 붙는 지시예요. 설정을 바꾸면 바로 바뀌어요.</div>
+                <textarea id="pp_prompt_preview" class="text_pole pp-prompt-box" rows="16" readonly></textarea>
+                <details class="pp-fold">
+                    <summary>틀 직접 고치기</summary>
+                    <div class="pp-set-desc"><code>{{pp_…}}</code> 자리는 설정에 따라 채워지고, 꺼진 기능은 줄째 빠져요.</div>
+                    <div class="pp-set-desc pp-prompt-keys">
+                        <code>{{pp_length}}</code> 답변 분량 · <code>{{pp_block_example}}</code> 상태 블록 예시 · <code>{{pp_status_rule}}</code> 상태 쓰는 법 ·
+                        <code>{{pp_transition}}</code> 암전·화이트아웃·회상 · <code>{{pp_bgm}}</code> BGM 목록 · <code>{{pp_affinity}}</code> 호감도 판정 ·
+                        <code>{{pp_effects}}</code> 흔들림 등 화면효과 · <code>{{pp_sfx}}</code> 효과음 목록 · <code>{{pp_status_now}}</code> 지금 상태
+                    </div>
+                    <textarea id="pp_prompt_template" class="text_pole pp-prompt-box" rows="16" spellcheck="false"></textarea>
+                    <div class="pp-btn-row">
+                        <div id="pp_prompt_reset" class="menu_button menu_button_icon"><i class="fa-solid fa-rotate-left"></i><span>기본값</span></div>
+                    </div>
+                </details>
+                <div class="pp-sub-label">픽플레이에서 숨길 태그</div>
+                <div class="pp-set-desc">이 태그로 감싼 블록은 픽플레이에 안 보여요 (쉼표로 구분)</div>
+                <input type="text" id="pp_hidden_tags" class="text_pole" placeholder="details, think">
+            </section>
+        </div>
+    </div>
+</div>

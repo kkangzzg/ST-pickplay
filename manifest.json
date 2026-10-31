@@ -1,0 +1,11 @@
+{
+    "display_name": "🎞️ 픽플레이",
+    "loading_order": 100,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "myayma",
+    "version": "1.0.0",
+    "homePage": "https://github.com/kkangzzg/ST-pickplay"
+}

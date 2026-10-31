@@ -1,0 +1,5697 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-subset.css');
+
+/* 테마별 폰트 (둘 다 SIL OFL 1.1: 상업적 사용·재배포 가능) */
+@import url('https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/variable/woff2/SUIT-Variable.css');
+
+/* ───────── 픽플레이 오버레이 ───────── */
+/* ST는 html에 transform을 걸어 fixed의 기준이 html이 되고, 폭 1000px 이하에서는
+   body가 fixed가 되어 html 높이가 0이 된다. inset만 쓰면 높이 0으로 사라지므로 크기를 직접 준다. */
+#pp-host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 9000;
+    display: none;
+}
+
+body.pp-active #pp-host {
+    display: block;
+}
+
+.pp-root [hidden] {
+    display: none !important;
+}
+
+/* CG */
+.pp-cg {
+    position: absolute;
+    inset: 0;
+    background: #2a2730;
+}
+
+.pp-cg-img.pp-on {
+    opacity: 1;
+}
+
+/* 1280×720 무대 — 창 크기에 맞춰 스케일 */
+.pp-stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1280px;
+    height: 720px;
+    transform-origin: center center;
+}
+
+.pp-ui {
+    position: absolute;
+    inset: 0;
+}
+
+.pp-hidden .pp-ui {
+    display: none;
+}
+
+.pp-unhide {
+    display: none;
+    position: absolute;
+    inset: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.pp-hidden .pp-unhide {
+    display: block;
+}
+
+.pp-unhide span {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    background: rgba(18, 16, 22, .75);
+    color: var(--pp-ink);
+    font-size: 13px;
+}
+
+.pp-scrim {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+/* 창 테두리: 이중선 + 좌상·우하 마름모 */
+.pp-frame {
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid rgba(236, 236, 242, .5);
+    outline: 1px solid rgba(236, 236, 242, .16);
+    outline-offset: -6px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 0;
+}
+
+.pp-frame::before,
+.pp-frame::after {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: var(--pp-ink);
+    transform: rotate(45deg);
+    pointer-events: none;
+}
+
+.pp-frame::before {
+    top: -4px;
+    left: -4px;
+}
+
+.pp-frame::after {
+    bottom: -4px;
+    right: -4px;
+}
+
+.pp-solid {
+    background: var(--pp-solid);
+}
+
+/* ───────── A안 · 시네마 ───────── */
+/* 위쪽 어둡게 (정보 알약 뒤) */
+.pp-scrim-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 90px;
+    background: linear-gradient(to bottom, rgba(10, 9, 14, .55), rgba(10, 9, 14, 0));
+    pointer-events: none;
+}
+
+/* 알약: 정보 · 호감도 알림 · 회상 배너 · 토스트 공통 */
+.pp-pill {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
+    min-height: 34px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: rgba(14, 12, 18, .78);
+    color: var(--pp-ink);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    white-space: nowrap;
+}
+
+.pp-aff-toast {
+    top: 18px;
+    right: 24px;
+    gap: 10px;
+    padding: 0 16px 0 13px;
+    font-size: 13px;
+}
+
+.pp-aff-heart {
+    display: inline-flex;
+    color: var(--pp-accent);
+}
+
+.pp-aff-heart.pp-down {
+    color: #8fa3c8;
+}
+
+.pp-aff-name {
+    font-weight: 700;
+}
+
+.pp-aff-words {
+    color: var(--pp-accent);
+    font-weight: 700;
+}
+
+.pp-rise-in {
+    animation: pp-rise-in .3s ease-out;
+}
+
+@keyframes pp-rise-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 회상 배너 */
+.pp-banner {
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 16px;
+    padding: 4px 6px 4px 18px;
+}
+
+.pp-banner-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    color: var(--pp-accent);
+}
+
+.pp-banner-btn {
+    height: 28px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--pp-accent);
+    color: #1a1620;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* STATUS 패널 안의 상태 행 */
+.pp-st-row {
+    display: grid;
+    align-items: center;
+    gap: 12px;
+}
+
+.pp-st-label {
+    font-size: 12px;
+    font-weight: 600;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.pp-st-value {
+    min-width: 0;
+    height: 32px;
+    line-height: 32px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--pp-ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.pp-editable {
+    padding: 0 8px;
+    margin-left: -8px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    cursor: text;
+    transition: background .15s;
+}
+
+.pp-editable:hover {
+    background: rgba(236, 236, 242, .1);
+}
+
+.pp-edit {
+    height: 32px;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0 8px;
+    border: 1px solid var(--pp-accent);
+    border-radius: 4px;
+    background: rgba(18, 16, 22, .9);
+    color: var(--pp-ink);
+    font-size: 15px;
+    font-weight: 600;
+    outline: none;
+    user-select: text;
+}
+
+.pp-edit-num {
+    width: 56px;
+    height: 30px;
+    padding: 0 4px;
+    font-size: 13px;
+    text-align: right;
+}
+
+.pp-st-sep {
+    height: 1px;
+    margin: 10px 0 6px;
+    background: rgba(236, 236, 242, .14);
+}
+
+.pp-st-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 32px;
+}
+
+.pp-tabs {
+    display: flex;
+    gap: 2px;
+}
+
+.pp-tab {
+    height: 26px;
+    padding: 0 10px;
+    border: 0;
+    background: transparent;
+    color: var(--pp-ink2);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.pp-tab.pp-on {
+    color: var(--pp-accent);
+    font-weight: 700;
+    box-shadow: inset 0 -1px 0 var(--pp-accent);
+}
+
+.pp-bar-row {
+    display: grid;
+    align-items: center;
+    gap: 12px;
+}
+
+.pp-bar-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pp-bar {
+    display: block;
+    position: relative;
+    height: 3px;
+    background: rgba(236, 236, 242, .2);
+}
+
+.pp-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--pp-accent);
+    transition: width .3s;
+}
+
+.pp-bar-v {
+    height: 30px;
+    padding: 0 6px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 30px;
+    text-align: right;
+}
+
+.pp-st-empty {
+    font-size: 12px;
+    color: var(--pp-ink2);
+    padding: 4px 0;
+}
+
+/* 선택지 */
+.pp-choices {
+    position: absolute;
+    top: 132px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pp-rise {
+    animation: pp-rise .35s ease-out;
+}
+
+@keyframes pp-rise {
+    from { opacity: 0; transform: translate(-50%, 10px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.pp-choice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pp-choice {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+    min-height: 56px;
+    padding: 10px 22px 10px 16px;
+    border: 1px solid rgba(244, 244, 248, .28);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--pp-dark) 92%, transparent);
+    color: var(--pp-ink);
+    font-size: 16px;
+    line-height: 1.45;
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+}
+
+.pp-choice:hover,
+.pp-choice:focus-visible {
+    background: color-mix(in srgb, var(--pp-accent) 18%, color-mix(in srgb, var(--pp-dark) 96%, transparent));
+    border-color: var(--pp-accent);
+    outline: none;
+}
+
+.pp-choice-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgb(var(--pp-accent-rgb) / .2);
+    color: var(--pp-accent);
+    font-size: 13px;
+    font-weight: 700;
+    transition: background .15s, color .15s;
+}
+
+.pp-choice:hover .pp-choice-num,
+.pp-choice:focus-visible .pp-choice-num {
+    background: var(--pp-accent);
+    color: #1a1620;
+}
+
+.pp-free-row {
+    display: flex;
+    align-items: center;
+    margin-top: 6px;
+    border: 1px solid rgba(244, 244, 248, .55);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--pp-dark) 95%, transparent);
+    overflow: hidden;
+    transition: border-color .15s;
+}
+
+.pp-free-row:focus-within {
+    border-color: var(--pp-accent);
+}
+
+.pp-free-icon {
+    flex: none;
+    color: var(--pp-accent);
+}
+
+.pp-free {
+    flex: 1;
+    min-width: 0;
+    height: 50px;
+    box-sizing: border-box;
+    font-size: 15px;
+    user-select: text;
+}
+
+.pp-free-send {
+    flex: none;
+    height: 50px;
+    padding: 0 22px;
+    border: 0;
+    background: var(--pp-accent);
+    color: #1a1620;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* 대사: 상자 없이 하단 띠 */
+.pp-dialogue {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    border: 0;
+    color: var(--pp-ink);
+    text-align: left;
+    cursor: pointer;
+}
+
+.pp-speaker-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+}
+
+.pp-speaker {
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: var(--pp-accent);
+}
+
+.pp-text.pp-narr {
+    color: var(--pp-ink3);
+}
+
+.pp-waiting .pp-text::after {
+    content: '';
+    display: inline-block;
+    width: 1.2em;
+    text-align: left;
+    animation: pp-dots 1.2s steps(4) infinite;
+}
+
+@keyframes pp-dots {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+}
+
+.pp-progress {
+    position: absolute;
+    right: 120px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pp-prog-bar {
+    display: block;
+    width: 48px;
+    height: 2px;
+    background: rgba(244, 244, 248, .25);
+}
+
+.pp-prog-fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--pp-accent);
+    transition: width .2s;
+}
+
+.pp-prog-count {
+    font-size: 12px;
+    color: rgba(244, 244, 248, .6);
+    letter-spacing: .08em;
+}
+
+@keyframes pp-bob {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(3px); opacity: .5; }
+}
+
+/* 하단 메뉴 */
+.pp-menu {
+    position: absolute;
+    left: 120px;
+    right: 120px;
+    bottom: 14px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pp-menu-group {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.pp-menu-btn {
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: rgba(244, 244, 248, .75);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    cursor: pointer;
+    transition: color .15s;
+}
+
+.pp-menu-btn:hover:not(:disabled),
+.pp-menu-btn.pp-on {
+    color: var(--pp-accent);
+}
+
+.pp-menu-btn:disabled {
+    color: rgba(244, 244, 248, .28);
+    cursor: default;
+}
+
+/* 토스트 */
+.pp-toast {
+    bottom: 240px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 패널 */
+.pp-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 7, 11, .62);
+}
+
+.pp-panel {
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 26px 30px 22px;
+    color: var(--pp-ink);
+}
+
+.pp-panel-lg {
+    width: 860px;
+    height: 600px;
+}
+
+.pp-pop {
+    animation: pp-pop .2s ease-out;
+}
+
+@keyframes pp-pop {
+    from { opacity: 0; transform: scale(.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.pp-panel-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(236, 236, 242, .16);
+}
+
+.pp-panel-title {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+}
+
+.pp-panel-tag {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .24em;
+    color: var(--pp-accent);
+}
+
+.pp-panel-name {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.pp-btn {
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid rgba(236, 236, 242, .3);
+    background: transparent;
+    color: var(--pp-ink);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.pp-btn-accent {
+    height: 38px;
+    padding: 0 18px;
+    border: 1px solid var(--pp-accent);
+    background: rgb(var(--pp-accent-rgb) / .12);
+    color: var(--pp-accent);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.pp-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    user-select: text;
+}
+
+.pp-hint {
+    font-size: 12px;
+    color: var(--pp-ink2);
+}
+
+/* LOG */
+.pp-log {
+    display: flex;
+    flex-direction: column;
+}
+
+.pp-log-row:hover {
+    background: rgba(236, 236, 242, .06);
+}
+
+.pp-thumb {
+    display: block;
+    position: relative;
+    width: 160px;
+    height: 90px;
+    overflow: hidden;
+    border: 1px solid rgba(236, 236, 242, .3);
+    background: #1d1a22;
+}
+
+.pp-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.pp-thumb-empty {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    letter-spacing: .2em;
+    color: rgba(236, 236, 242, .3);
+}
+
+.pp-now {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    padding: 2px 8px;
+    background: var(--pp-accent);
+    color: #1a1620;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.pp-log-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.pp-log-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--pp-ink2);
+}
+
+.pp-log-num {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    color: var(--pp-accent);
+}
+
+.pp-log-user {
+    font-size: 14px;
+    color: var(--pp-accent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pp-log-prev {
+    font-size: 15px;
+    color: var(--pp-ink3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* TEXT */
+.pp-textview {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 8px 6px 8px 2px;
+}
+
+.pp-text-user {
+    padding: 10px 16px;
+    border-left: 2px solid var(--pp-accent);
+    background: rgb(var(--pp-accent-rgb) / .08);
+    font-size: 15px;
+    color: var(--pp-accent);
+}
+
+.pp-text-line {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pp-text-name {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--pp-accent);
+}
+
+.pp-text-t {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--pp-ink);
+}
+
+.pp-text-t.pp-narr {
+    color: var(--pp-ink2);
+}
+
+.pp-panel-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid rgba(236, 236, 242, .16);
+}
+
+.pp-nav-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.pp-nav {
+    height: 34px;
+    padding: 0 12px;
+    border: 0;
+    background: transparent;
+    color: var(--pp-ink);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.pp-nav:disabled {
+    color: #5e5862;
+    cursor: default;
+}
+
+.pp-count {
+    font-size: 13px;
+    letter-spacing: .1em;
+    color: var(--pp-ink2);
+}
+
+/* ALBUM */
+.pp-album {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-content: start;
+    gap: 16px;
+}
+
+.pp-album-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pp-album-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.pp-album-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--pp-ink2);
+}
+
+.pp-fav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--pp-ink2);
+    cursor: pointer;
+}
+
+.pp-fav.pp-on {
+    color: var(--pp-accent);
+    --pp-fav-fill: 1;
+}
+
+/* 화면 효과 */
+.pp-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+}
+
+@keyframes pp-flash {
+    0% { opacity: .9; }
+    100% { opacity: 0; }
+}
+
+/* ───────── VN 안의 창(모달) · 호감도 단계 칸 ───────── */
+.pp-modal {
+    background: rgba(8, 7, 11, .85);
+}
+
+.pp-seg-btn {
+    border: 1px solid rgba(236, 236, 242, .3);
+    background: transparent;
+    color: var(--pp-ink);
+    cursor: pointer;
+    transition: border-color .15s, background .15s, color .15s;
+}
+
+.pp-seg-btn:hover {
+    border-color: rgb(var(--pp-accent-rgb) / .7);
+}
+
+.pp-seg-btn.pp-on {
+    border-color: var(--pp-accent);
+    background: rgb(var(--pp-accent-rgb) / .14);
+    color: var(--pp-accent);
+    font-weight: 700;
+}
+
+.pp-cast-row .pp-seg-btn {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 13px;
+}
+
+/* ───────── 대사창 모양: 박스 (클래식) ─────────
+   A안의 진한 배경·큰 글자는 그대로 두고, 대사만 이중선 창에 담는다. */
+.pp-speaker-line {
+    display: none;
+}
+
+.pp-dlg-box .pp-dialogue::before,
+.pp-dlg-box .pp-dialogue::after {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: var(--pp-ink);
+    transform: rotate(45deg);
+    pointer-events: none;
+}
+
+.pp-dlg-box .pp-dialogue::before {
+    top: -4px;
+    left: -4px;
+}
+
+.pp-dlg-box .pp-dialogue::after {
+    bottom: -4px;
+    right: -4px;
+}
+
+.pp-dlg-box .pp-speaker-row {
+    align-items: center;
+    height: 26px;
+}
+
+.pp-dlg-box .pp-speaker-row[hidden] {
+    display: flex !important;
+    visibility: hidden;
+}
+
+.pp-dlg-box .pp-speaker {
+    text-shadow: none;
+}
+
+.pp-dlg-box .pp-speaker-line {
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: rgb(var(--pp-accent-rgb) / .35);
+}
+
+.pp-dlg-box .pp-text {
+    max-width: none;
+    text-shadow: none;
+}
+
+.pp-dlg-box .pp-progress {
+    right: 28px;
+    bottom: 12px;
+}
+
+.pp-dlg-box .pp-menu {
+    max-width: 1000px;
+    margin: 0 auto;
+    border-top: 0;
+}
+
+.pp-dlg-box .pp-menu-btn {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .8);
+}
+
+/* ───────── 왼쪽 위 상태 펼치기 ───────── */
+.pp-info {
+    border: 0;
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.pp-info-values {
+    align-items: center;
+    gap: 12px;
+}
+
+.pp-info-chevron {
+    margin-left: 2px;
+}
+
+.pp-status-drop {
+    position: absolute;
+    overflow: hidden auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.pp-status-drop .pp-st-row {
+    grid-template-columns: 60px minmax(0, 1fr);
+    min-height: 32px;
+}
+
+.pp-status-drop .pp-bar-row {
+    min-height: 30px;
+}
+
+.pp-status-hint {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--pp-ink2);
+}
+
+/* LOG 목록 / CG만 전환 */
+.pp-log-toggle {
+    margin-left: 10px;
+    gap: 4px;
+}
+
+.pp-log-toggle .pp-seg-btn {
+    min-height: 28px;
+    padding: 0 12px;
+    font-size: 12px;
+}
+
+/* ───────── LOG 목록: 줄 = 그 턴으로 가기, 오른쪽 "전문" ───────── */
+.pp-log-row {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+    padding: 14px 10px;
+    border: 0;
+    border-bottom: 1px solid rgba(236, 236, 242, .1);
+    background: transparent;
+    color: var(--pp-ink);
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s;
+    grid-template-columns: 160px minmax(0, 1fr) auto;
+}
+
+.pp-log-row:focus-visible {
+    outline: 1px solid var(--pp-accent);
+    outline-offset: -1px;
+}
+
+.pp-log-read {
+    align-self: center;
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid rgba(236, 236, 242, .3);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--pp-ink2);
+    font-size: 12px;
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+}
+
+.pp-log-read:hover {
+    color: var(--pp-accent);
+    border-color: var(--pp-accent);
+}
+
+.pp-album-thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(236, 236, 242, .35);
+    background: #1d1a22;
+    cursor: pointer;
+    position: relative;
+}
+
+.pp-album-count {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(14, 12, 18, .82);
+    color: var(--pp-ink);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* ───────── CG 뷰어 ───────── */
+.pp-overlay.pp-overlay-viewer {
+    background: rgba(6, 5, 8, .94);
+}
+
+.pp-viewer {
+    position: absolute;
+    inset: 0;
+}
+
+.pp-vw-stage {
+    position: absolute;
+    inset: 24px 88px 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pp-vw-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .5);
+    user-select: none;
+}
+
+.pp-vw-ico {
+    display: inline-flex;
+}
+
+.pp-vw-close,
+.pp-vw-nav {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(14, 12, 18, .7);
+    color: var(--pp-ink);
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+
+.pp-vw-close:hover,
+.pp-vw-nav:hover {
+    background: rgba(14, 12, 18, .95);
+    color: var(--pp-accent);
+}
+
+.pp-vw-close {
+    top: 20px;
+    right: 20px;
+}
+
+.pp-vw-nav {
+    top: calc(50% - 58px);
+    width: 52px;
+    height: 52px;
+}
+
+.pp-vw-prev {
+    left: 20px;
+}
+
+.pp-vw-next {
+    right: 20px;
+}
+
+.pp-vw-bar {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 20px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 10px 0 22px;
+    border-radius: 999px;
+    background: rgba(14, 12, 18, .85);
+}
+
+.pp-vw-info {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    min-width: 0;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.pp-vw-turn {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    color: var(--pp-accent);
+}
+
+.pp-vw-meta {
+    font-size: 13px;
+    color: var(--pp-ink2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pp-vw-ver {
+    font-size: 12px;
+    color: var(--pp-ink);
+}
+
+.pp-vw-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pp-vw-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--pp-ink);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+
+.pp-vw-btn:hover:not(:disabled) {
+    background: rgba(236, 236, 242, .1);
+    color: var(--pp-accent);
+}
+
+.pp-vw-btn:disabled {
+    color: rgba(236, 236, 242, .3);
+    cursor: default;
+}
+
+.pp-vw-go {
+    background: var(--pp-accent);
+    color: #1a1620;
+}
+
+.pp-vw-go:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--pp-accent) 70%, #fff);
+    color: #1a1620;
+}
+
+.pp-vw-actions .pp-fav {
+    width: 38px;
+    height: 38px;
+}
+
+.pp-log-hidden {
+    padding: 1px 8px;
+    border: 1px solid rgba(236, 236, 242, .25);
+    border-radius: 999px;
+    font-size: 11px;
+    color: var(--pp-ink2);
+}
+
+/* ───────── 화면 효과 (Ren'Py 기본 효과 기준) ───────── */
+/* 세로·가로 흔들림: vpunch / hpunch, 0.25초 */
+.pp-fx-vpunch {
+    animation: pp-vpunch .25s linear;
+}
+
+.pp-fx-hpunch {
+    animation: pp-hpunch .25s linear;
+}
+
+@keyframes pp-vpunch {
+    0%, 100% { transform: translateY(0); }
+    20% { transform: translateY(-12px); }
+    40% { transform: translateY(10px); }
+    60% { transform: translateY(-7px); }
+    80% { transform: translateY(4px); }
+}
+
+@keyframes pp-hpunch {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-14px); }
+    40% { transform: translateX(12px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(4px); }
+}
+
+/* 플래시: 0.1초에 흰색, 0.5초에 걸쳐 돌아옴 */
+.pp-fx-flash {
+    background: #fff;
+    animation: pp-flash-in-out .6s ease-out;
+}
+
+@keyframes pp-flash-in-out {
+    0% { opacity: 0; }
+    16% { opacity: .95; }
+    100% { opacity: 0; }
+}
+
+/* 암전·화이트아웃: 가려진 사이에 그림이 바뀐다 */
+.pp-fx-fade {
+    background: #000;
+    animation: pp-cover 1.2s ease-in-out;
+}
+
+.pp-fx-whiteout {
+    background: #fff;
+    animation: pp-cover 1.4s ease-in-out;
+}
+
+@keyframes pp-cover {
+    0% { opacity: 0; }
+    35% { opacity: 1; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.pp-cg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .9s ease, transform .6s ease-out;
+}
+
+.pp-cg-img.pp-instant {
+    transition: transform .6s ease-out;
+}
+
+/* 회상 톤: 세피아 + 가장자리 어둡게, 그 턴 동안 유지 */
+.pp-tone-flashback .pp-cg-img {
+    filter: sepia(.7) saturate(.65) brightness(.95) contrast(.95);
+}
+
+.pp-cg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(30, 20, 10, .55) 100%);
+    opacity: 0;
+    transition: opacity .6s;
+    pointer-events: none;
+}
+
+.pp-tone-flashback .pp-cg::after {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pp-fx-vpunch,
+    .pp-fx-hpunch {
+        animation: none;
+    }
+}
+
+.pp-log-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 썸네일: 불러오는 동안은 빈 칸, 다 되면 살짝 나타남 */
+.pp-thumb img,
+.pp-album-thumb img {
+    transition: opacity .2s;
+}
+
+.pp-thumb img.pp-thumb-pending,
+.pp-album-thumb img.pp-thumb-pending {
+    opacity: 0;
+}
+
+/* ───────── 글자 크기 · 대사창 불투명도 (설정) ───────── */
+.pp-root {
+    --pp-ink: #f7f6f4;
+    --pp-ink2: #c4c4cc;
+    --pp-ink3: #e2e2e8;
+    --pp-accent: #f2a7b8;
+    --pp-accent-rgb: 242 167 184;
+    --pp-dark: color-mix(in srgb, var(--pp-accent) 6%, rgb(14 14 17));
+    --pp-win: color-mix(in srgb, color-mix(in srgb, var(--pp-accent) 6%, rgb(20 20 24)) 80%, transparent);
+    --pp-solid: color-mix(in srgb, color-mix(in srgb, var(--pp-accent) 6%, rgb(17 17 20)) 97%, transparent);
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: #121116;
+    color: var(--pp-ink);
+    user-select: none;
+    --pp-text-size: 21px;
+    --pp-win-alpha: 1;
+}
+
+.pp-text {
+    display: block;
+    max-width: 900px;
+    min-height: 1.75em;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+    color: var(--pp-ink);
+    font-size: var(--pp-text-size);
+}
+
+.pp-speaker,
+.pp-dlg-box .pp-speaker {
+    font-size: calc(var(--pp-text-size) - 2px);
+}
+
+.pp-dlg-box .pp-scrim {
+    height: 260px;
+    background: linear-gradient(to top, rgb(10 9 14 / calc(.7 * var(--pp-win-alpha))), rgb(10 9 14 / 0));
+}
+
+.pp-dlg-box .pp-dialogue {
+    bottom: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 22px 44px 36px;
+    justify-content: flex-start;
+    border: 1px solid rgba(236, 236, 242, .5);
+    outline: 1px solid rgba(236, 236, 242, .16);
+    outline-offset: -6px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: color-mix(in srgb, var(--pp-dark) calc(88% * var(--pp-win-alpha)), transparent);
+}
+
+.pp-portrait .pp-cg-img {
+    bottom: auto;
+    height: 70%;
+    object-fit: contain;
+}
+
+.pp-portrait .pp-scrim {
+    height: 760px;
+}
+
+/* 세로 화면(폰): 설정 글자 크기의 1.1배. PC와 같은 설정을 쓰되 폰에서 너무 커 보이지 않게 */
+.pp-portrait .pp-text {
+    max-width: none;
+    font-size: calc(var(--pp-text-size) * var(--pp-phone-text, 1.1));
+}
+
+.pp-portrait .pp-speaker,
+.pp-portrait.pp-dlg-box .pp-speaker {
+    font-size: calc(var(--pp-text-size) * var(--pp-phone-text, 1.1) - 2px);
+}
+
+.pp-portrait .pp-dialogue {
+    min-height: 220px;
+}
+
+.pp-portrait.pp-dlg-box .pp-dialogue {
+    left: 16px;
+    right: 16px;
+    bottom: 136px;
+    padding: 24px 28px 44px;
+}
+
+.pp-portrait .pp-progress {
+    right: 28px;
+}
+
+.pp-portrait .pp-prog-count {
+    font-size: 17px;
+}
+
+.pp-portrait .pp-menu,
+.pp-portrait.pp-dlg-box .pp-menu {
+    left: 16px;
+    right: 16px;
+    bottom: 12px;
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 22px;
+}
+
+.pp-portrait .pp-menu-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 22px;
+}
+
+.pp-portrait .pp-menu-btn {
+    height: 56px;
+    font-size: 18px;
+    letter-spacing: .1em;
+}
+
+/* 선택지는 CG를 덜 가리도록 대사창 바로 위에 붙인다 */
+.pp-portrait .pp-choices {
+    top: auto;
+    bottom: 420px;
+    width: 552px;
+}
+
+.pp-portrait .pp-choice {
+    grid-template-columns: 36px minmax(0, 1fr);
+    min-height: 76px;
+    font-size: 21px;
+}
+
+.pp-portrait .pp-choice-num {
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
+}
+
+.pp-portrait .pp-free,
+.pp-portrait .pp-free-send {
+    height: 68px;
+    font-size: 19px;
+}
+
+/* 작은 UI(정보 알약·상태·토스트·패널)는 통째로 키운다 */
+.pp-portrait .pp-info,
+.pp-portrait .pp-status-drop,
+.pp-portrait .pp-aff-toast,
+.pp-portrait .pp-banner,
+.pp-portrait .pp-toast,
+.pp-portrait .pp-unhide span,
+.pp-portrait .pp-overlay {
+    zoom: 1.45;
+}
+
+.pp-portrait .pp-panel,
+.pp-portrait .pp-panel-lg {
+    width: calc(100% - 24px);
+    max-height: calc(100% - 60px);
+    padding: 18px 16px 16px;
+    box-sizing: border-box;
+}
+
+.pp-portrait .pp-panel-lg {
+    height: calc(100% - 60px);
+}
+
+.pp-portrait .pp-log-row {
+    grid-template-columns: 96px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 10px 4px;
+}
+
+.pp-portrait .pp-log-row .pp-thumb {
+    width: 96px;
+}
+
+.pp-portrait .pp-album {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+/* ───────── 이 채팅 상태창 (처음 켤 때도 같은 창) ───────── */
+.pp-panel-pick {
+    width: 640px;
+    max-height: 640px;
+}
+
+.pp-pick-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+    overflow: auto;
+}
+
+.pp-pick-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pp-pick-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid rgba(236, 236, 242, .2);
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.pp-pick-item:has(input:checked) {
+    border-color: var(--pp-accent);
+}
+
+.pp-pick-item input {
+    margin: 0;
+    accent-color: var(--pp-accent);
+}
+
+.pp-pick-add {
+    display: flex;
+    gap: 6px;
+}
+
+.pp-pick-input,
+.pp-pick-type {
+    height: 34px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    border: 1px solid rgba(236, 236, 242, .3);
+    background: rgba(255, 255, 255, .04);
+    color: var(--pp-ink);
+    font-size: 13px;
+    user-select: text;
+}
+
+.pp-pick-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.pp-pick-type option {
+    background: #1a1820;
+}
+
+.pp-pick-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.pp-portrait .pp-panel-pick {
+    width: calc(100% - 24px);
+}
+
+.pp-root:not(.pp-dlg-box) .pp-dialogue {
+    padding: 32px 120px 30px;
+    justify-content: flex-start;
+}
+
+.pp-root:not(.pp-dlg-box) .pp-speaker-row {
+    top: -17px;
+    left: 120px;
+}
+
+.pp-root:not(.pp-dlg-box) .pp-progress {
+    bottom: 12px;
+}
+
+.pp-root:not(.pp-dlg-box) .pp-menu {
+    border-top: 0;
+}
+
+.pp-portrait:not(.pp-dlg-box) .pp-choices {
+    bottom: 450px;
+}
+
+/* ───────── 확장 설정 화면 ─────────
+   ST 테마 색(SmartTheme)을 따르고, 강조색만 분홍으로 둔다. */
+.pp-settings {
+    --pp-s-accent: var(--pp-user-accent, #d9738c);
+    --pp-s-card: color-mix(in srgb, var(--SmartThemeBodyColor) 4%, transparent);
+    --pp-s-line: var(--SmartThemeBorderColor);
+}
+
+/* 펼침/접힘은 실리태번이 display로 정한다. 여기서 display를 주면 확장 설정을 열 때마다 픽플레이가 늘 펼쳐져 있었다
+   → 칸 사이 간격은 display 대신 여백으로 */
+.pp-settings .inline-drawer-content {
+    padding-top: 6px;
+}
+
+.pp-settings .inline-drawer-content > * + * {
+    margin-top: 10px;
+}
+
+.pp-settings .pp-hero {
+    padding: 14px 14px 12px;
+    border: 1px solid color-mix(in srgb, var(--pp-s-accent) 45%, transparent);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--pp-s-accent) 9%, transparent);
+}
+
+.pp-settings .pp-hero-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.pp-settings .pp-hero-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pp-settings .pp-hero-title {
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.pp-settings .pp-hero-sub {
+    font-size: .85em;
+    opacity: .7;
+}
+
+.pp-settings .pp-hero-tip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed color-mix(in srgb, var(--pp-s-accent) 35%, transparent);
+    font-size: .8em;
+    opacity: .8;
+}
+
+.pp-settings kbd,
+.pp-settings .pp-hero-tip code {
+    display: inline-block;
+    min-width: 1.6em;
+    margin-right: 3px;
+    padding: 0 5px;
+    border: 1px solid var(--pp-s-line);
+    border-radius: 4px;
+    background: var(--pp-s-card);
+    font-family: inherit;
+    font-size: .95em;
+    text-align: center;
+}
+
+.pp-settings .pp-sec {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px 14px;
+    border: 1px solid var(--pp-s-line);
+    border-radius: 10px;
+    background: var(--pp-s-card);
+}
+
+.pp-settings .pp-sec-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+    font-weight: 700;
+    font-size: 1em;
+}
+
+.pp-settings .pp-sec-head i {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--pp-s-accent) 16%, transparent);
+    color: var(--pp-s-accent);
+    font-size: 12px;
+}
+
+.pp-settings .pp-set-desc {
+    margin: 0 0 4px;
+    font-size: .82em;
+    line-height: 1.5;
+    opacity: .7;
+}
+
+.pp-settings .pp-sub-label {
+    margin-top: 4px;
+    font-size: .8em;
+    font-weight: 700;
+    letter-spacing: .04em;
+    opacity: .65;
+}
+
+.pp-settings .pp-set-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    padding: 8px 0;
+    border-top: 1px solid color-mix(in srgb, var(--pp-s-line) 70%, transparent);
+}
+
+.pp-settings .pp-set-row > label,
+.pp-settings .pp-check > span {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.pp-settings .pp-set-row small {
+    font-size: .78em;
+    line-height: 1.45;
+    opacity: .65;
+}
+
+.pp-settings .pp-set-row select.text_pole {
+    width: auto;
+    max-width: 55%;
+    margin: 0;
+}
+
+.pp-settings .pp-set-row input[type="number"].text_pole {
+    width: 84px;
+    margin: 0;
+    text-align: right;
+}
+
+.pp-settings .pp-check {
+    cursor: pointer;
+}
+
+.pp-settings .pp-range {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 50%;
+}
+
+.pp-settings .pp-range input {
+    flex: 1;
+    accent-color: var(--pp-s-accent);
+}
+
+/* 메인 색: 견본 여섯 개 + 직접 고르기 */
+.pp-settings .pp-accent-pick {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.pp-settings .pp-swatch {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: var(--c);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .25);
+    cursor: pointer;
+}
+
+.pp-settings .pp-swatch.pp-on {
+    border-color: var(--SmartThemeBodyColor, #fff);
+}
+
+.pp-settings #pp_accent {
+    width: 30px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.pp-settings #pp_window_alpha_val {
+    width: 38px;
+    font-size: .85em;
+    text-align: right;
+    opacity: .8;
+}
+
+/* 스위치 */
+.pp-settings input.pp-switch {
+    -webkit-appearance: none;
+    flex: none;
+    position: relative;
+    width: 40px;
+    height: 22px;
+    margin: 0;
+    border-radius: 11px;
+    background: color-mix(in srgb, var(--SmartThemeBodyColor) 22%, transparent);
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.pp-settings input.pp-switch::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+    transition: transform .15s;
+}
+
+.pp-settings input.pp-switch:checked {
+    background: var(--pp-s-accent);
+}
+
+.pp-settings input.pp-switch:checked::before {
+    transform: translateX(18px);
+}
+
+.pp-settings input.pp-switch::after {
+    content: none;
+}
+
+.pp-settings .pp-add {
+    align-self: flex-start;
+    margin: 4px 0 0;
+}
+
+.pp-settings .pp-item-card .menu_button {
+    margin: 0;
+}
+
+.pp-settings .pp-fold {
+    margin-top: 6px;
+}
+
+.pp-settings .pp-fold > summary {
+    font-size: .82em;
+    opacity: .7;
+    cursor: pointer;
+}
+
+/* 항목 목록: 한 줄로 */
+.pp-settings .pp-item-card {
+    display: flex;
+    border: 1px solid var(--SmartThemeBorderColor);
+    margin: 4px 0;
+    border-radius: 8px;
+    background: var(--pp-s-card);
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+}
+
+.pp-settings .pp-item-top {
+    display: grid;
+    flex: 1 1 200px;
+    grid-template-columns: minmax(0, 1fr) 84px;
+    gap: 6px;
+}
+
+.pp-settings .pp-item-top .text_pole {
+    margin: 0;
+}
+
+.pp-settings .pp-item-actions {
+    display: flex;
+    align-items: center;
+    flex: none;
+    gap: 2px;
+}
+
+.pp-settings .pp-item-actions .menu_button {
+    width: 28px;
+    height: 28px;
+    min-width: 0;
+    padding: 0;
+    justify-content: center;
+    background: transparent;
+    border-color: transparent;
+    opacity: .7;
+}
+
+.pp-settings .pp-item-actions .menu_button:hover {
+    opacity: 1;
+}
+
+.pp-settings .pp-item-actions .checkbox_label {
+    margin-right: 6px;
+    font-size: .82em;
+}
+
+/* 설정 탭 */
+.pp-settings .pp-tabbar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--pp-s-line);
+    border-radius: 10px;
+    background: var(--pp-s-card);
+}
+
+.pp-settings .pp-tab-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 7px 4px 6px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: .85em;
+    opacity: .65;
+    cursor: pointer;
+    transition: background .15s, opacity .15s;
+}
+
+.pp-settings .pp-tab-btn i {
+    font-size: 13px;
+}
+
+.pp-settings .pp-tab-btn:hover {
+    opacity: 1;
+}
+
+.pp-settings .pp-tab-btn.pp-on {
+    background: color-mix(in srgb, var(--pp-s-accent) 16%, transparent);
+    color: var(--pp-s-accent);
+    font-weight: 700;
+    opacity: 1;
+}
+
+/* 호감도 단계 */
+.pp-settings .pp-tier-row {
+    display: grid;
+    grid-template-columns: 64px auto minmax(0, 1fr) 28px;
+    align-items: center;
+    gap: 6px;
+    margin: 3px 0;
+}
+
+.pp-settings .pp-tier-row .text_pole {
+    margin: 0;
+}
+
+.pp-settings .pp-tier-min {
+    text-align: right;
+}
+
+.pp-settings .pp-tier-unit {
+    font-size: .8em;
+    opacity: .65;
+}
+
+.pp-settings .pp-tier-del {
+    width: 28px;
+    height: 28px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    background: transparent;
+    border-color: transparent;
+    opacity: .7;
+}
+
+.pp-settings .pp-btn-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.pp-settings .pp-btn-row .menu_button {
+    margin: 0;
+}
+
+.pp-root input.pp-free,
+.pp-root input.pp-free:focus,
+.pp-root input.pp-free:hover {
+    margin: 0;
+    padding: 0 14px;
+    border-radius: 0;
+}
+
+/* "CG 없음" 표시는 오른쪽 위로 (왼쪽 위 상태 알약과 겹치지 않게) */
+.pp-cg-empty {
+    position: absolute;
+    padding: 6px 12px;
+    background: rgba(18, 16, 22, .7);
+    color: var(--pp-ink);
+    font-size: 12px;
+    letter-spacing: .02em;
+    top: 20px;
+    left: auto;
+    right: 24px;
+    opacity: .7;
+}
+
+/* 번역 대기 중 "원문으로 보기" */
+.pp-orig-btn {
+    height: 28px;
+    margin-right: 10px;
+    padding: 0 12px;
+    border: 1px solid rgb(var(--pp-accent-rgb) / .55);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--pp-accent);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.pp-orig-btn:hover {
+    background: rgb(var(--pp-accent-rgb) / .14);
+}
+
+.pp-menu-btn[hidden] {
+    display: none !important;
+}
+
+/* ───────── CG 비율 무대 + 흐린 칸 ─────────
+   가로 창에서는 무대(.pp-cg와 .pp-stage)를 CG 비율에 맞추고, 남는 칸은 같은 그림을 흐리게 깐다.
+   테마의 "흐림 끄기"(filter: none !important)에 지워지지 않게 !important로 둔다. */
+.pp-root .pp-cg-bg {
+    position: absolute;
+    inset: -60px;
+    background-color: #121116;
+    background-position: center;
+    background-size: cover;
+    filter: blur(32px) brightness(.4) saturate(1.1) !important;
+    pointer-events: none;
+}
+
+.pp-framed .pp-cg {
+    background: transparent;
+    overflow: hidden;
+}
+
+.pp-framed .pp-cg-img {
+    inset: 0;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pp-portrait .pp-cg {
+    background: transparent;
+}
+
+/* 상태창 고르기: 새 항목 줄 (입력칸·종류·추가 높이와 모서리 맞춤) */
+.pp-root .pp-pick-add .pp-pick-input,
+.pp-root .pp-pick-add select.pp-pick-type,
+.pp-root .pp-pick-add .pp-pick-addbtn {
+    height: 38px;
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid rgba(236, 236, 242, .3);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, .04);
+    color: var(--pp-ink);
+    font-size: 14px;
+    line-height: normal;
+}
+
+.pp-root .pp-pick-add select.pp-pick-type {
+    flex: none;
+    width: 88px;
+    padding: 0 8px;
+}
+
+.pp-root .pp-pick-add .pp-pick-addbtn {
+    flex: none;
+    width: 64px;
+    padding: 0;
+}
+
+.pp-root .pp-pick-add .pp-pick-addbtn:hover {
+    border-color: var(--pp-accent);
+    color: var(--pp-accent);
+}
+
+.pp-root select.pp-pick-rel-sel {
+    flex: none;
+    width: 112px;
+    height: 32px;
+    margin: 0;
+    padding: 0 6px;
+    border: 1px solid rgba(236, 236, 242, .3);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, .04);
+    color: var(--pp-ink);
+    font-size: 13px;
+}
+
+.pp-pick-rel-sel option {
+    background: #1a1820;
+}
+
+.pp-portrait .pp-pick-rel-list {
+    grid-template-columns: 1fr;
+}
+
+/* ───────── 답변 조작 ‹ ↻ › (대사창 오른쪽 위) ───────── */
+.pp-answer {
+    position: absolute;
+    top: 14px;
+    right: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    z-index: 1;
+}
+
+.pp-ans-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: rgba(236, 236, 242, .8);
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+}
+
+.pp-ans-side {
+    width: 30px;
+    font-size: 22px;
+    line-height: 1;
+    padding-bottom: 3px;
+}
+
+.pp-ans-main {
+    width: 38px;
+    border-color: rgba(236, 236, 242, .3);
+}
+
+.pp-ans-btn:hover:not(:disabled) {
+    background: rgb(var(--pp-accent-rgb) / .14);
+    color: var(--pp-accent);
+}
+
+.pp-ans-main:hover:not(:disabled) {
+    border-color: var(--pp-accent);
+}
+
+.pp-ans-btn:disabled {
+    opacity: .25;
+    cursor: default;
+}
+
+/* 띠 모양: 이름표 줄 오른쪽 */
+.pp-root:not(.pp-dlg-box) .pp-answer {
+    top: 10px;
+    right: 112px;
+}
+
+.pp-portrait .pp-answer,
+.pp-portrait:not(.pp-dlg-box) .pp-answer {
+    right: 16px;
+}
+
+.pp-portrait .pp-ans-btn {
+    height: 48px;
+}
+
+.pp-portrait .pp-ans-side {
+    width: 44px;
+    font-size: 30px;
+}
+
+.pp-portrait .pp-ans-main {
+    width: 52px;
+}
+
+.pp-portrait .pp-ans-main svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ───────── 문장 이동 ‹ › (대사창 양 끝) ───────── */
+.pp-line-nav {
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: rgb(var(--pp-accent-rgb) / .75);
+    line-height: 1;
+    cursor: pointer;
+    transition: background .15s, color .15s, opacity .15s;
+}
+
+.pp-line-nav:hover:not(:disabled) {
+    background: rgb(var(--pp-accent-rgb) / .12);
+    color: var(--pp-accent);
+}
+
+.pp-line-nav:disabled {
+    opacity: .2;
+    cursor: default;
+}
+
+.pp-line-prev {
+    left: 4px;
+}
+
+.pp-line-next {
+    right: 4px;
+}
+
+/* 띠 모양: 글자 시작선(120) 바깥 여백에 */
+.pp-root:not(.pp-dlg-box) .pp-line-prev {
+    left: 56px;
+}
+
+.pp-root:not(.pp-dlg-box) .pp-line-next {
+    right: 56px;
+}
+
+.pp-portrait .pp-line-prev,
+.pp-portrait:not(.pp-dlg-box) .pp-line-prev {
+    left: 4px;
+}
+
+.pp-portrait .pp-line-next,
+.pp-portrait:not(.pp-dlg-box) .pp-line-next {
+    right: 4px;
+}
+
+/* ───────── 문장 이동 = 진행 알약 [‹ ── 2/3 ›] (박스·띠 공통, 대사창 오른쪽 아래) ─────────
+   앞서 넣은 양 끝 화살표 배치를 되돌린다 */
+.pp-nav-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 30px;
+    padding: 0 4px;
+    border: 1px solid rgba(236, 236, 242, .22);
+    border-radius: 15px;
+    background: rgba(10, 9, 14, .35);
+}
+
+.pp-root .pp-line-nav,
+.pp-root:not(.pp-dlg-box) .pp-line-nav,
+.pp-portrait .pp-line-nav {
+    position: static;
+    transform: none;
+    width: 26px;
+    height: 26px;
+    padding: 0 0 2px;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.pp-next {
+    color: var(--pp-accent);
+    animation: pp-bob 1.1s ease-in-out infinite;
+    display: none !important;
+}
+
+.pp-portrait .pp-dialogue,
+.pp-portrait.pp-dlg-box .pp-dialogue {
+    padding-left: 28px;
+    padding-right: 28px;
+}
+
+.pp-portrait:not(.pp-dlg-box) .pp-dialogue {
+    bottom: 132px;
+    min-height: 200px;
+    padding-left: 28px;
+    padding-right: 28px;
+}
+
+.pp-portrait:not(.pp-dlg-box) .pp-speaker-row {
+    left: 28px;
+}
+
+.pp-portrait .pp-nav-pill {
+    height: 44px;
+    border-radius: 22px;
+    gap: 10px;
+}
+
+.pp-portrait .pp-root .pp-line-nav,
+.pp-portrait .pp-line-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+}
+
+.pp-portrait:not(.pp-dlg-box) .pp-line-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+}
+
+/* 직접 입력칸: 테마의 입력칸 포커스 스타일(흰 배경)이 덮어쓰지 않게 */
+.pp-root .pp-free-row input.pp-free,
+.pp-root .pp-free-row input.pp-free:focus,
+.pp-root .pp-free-row input.pp-free:hover,
+.pp-root .pp-free-row input.pp-free:focus-visible {
+    background: transparent !important;
+    border: 0 !important;
+}
+
+.pp-root .pp-free-row input.pp-free::placeholder {
+    color: rgba(244, 244, 248, .5) !important;
+    -webkit-text-fill-color: rgba(244, 244, 248, .5);
+}
+
+/* 되돌리기 (답변 버튼 왼쪽, 살짝 떨어뜨림) */
+.pp-ans-undo {
+    width: 32px;
+}
+
+.pp-ans-gap {
+    width: 1px;
+    height: 16px;
+    margin: 0 6px;
+    background: rgba(236, 236, 242, .2);
+}
+
+.pp-portrait .pp-ans-undo {
+    width: 44px;
+}
+
+.pp-portrait .pp-ans-undo svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ───────── QR 판 (하단 메뉴 바로 위) ───────── */
+.pp-qr-panel {
+    position: absolute;
+    left: 120px;
+    right: 120px;
+    bottom: 54px;
+    z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 12px;
+    border: 1px solid rgba(236, 236, 242, .3);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--pp-dark) 96%, transparent);
+    animation: pp-pop .15s ease-out;
+}
+
+.pp-dlg-box .pp-qr-panel {
+    left: 140px;
+    right: 140px;
+}
+
+.pp-qr-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid rgba(236, 236, 242, .28);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, .03);
+    color: var(--pp-ink);
+    font-size: 14px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
+}
+
+.pp-qr-btn:hover,
+.pp-qr-btn:focus-visible {
+    background: rgb(var(--pp-accent-rgb) / .14);
+    border-color: var(--pp-accent);
+    color: var(--pp-accent);
+    outline: none;
+}
+
+.pp-qr-btn i {
+    font-size: 13px;
+    opacity: .85;
+}
+
+.pp-portrait .pp-qr-panel,
+.pp-portrait.pp-dlg-box .pp-qr-panel {
+    left: 16px;
+    right: 16px;
+    bottom: 140px;
+    max-height: 420px;
+}
+
+.pp-portrait .pp-qr-btn {
+    height: 52px;
+    padding: 0 18px;
+    font-size: 19px;
+}
+
+/* ───────── 상태창 고르기: 공략 명단 ─────────
+   한 줄 = [체크 이름] [시작 관계] [같은 사람] */
+.pp-pick-rel-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pp-cast-name span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pp-root select.pp-pick-rel-sel:disabled {
+    opacity: .4;
+}
+
+/* ───────── VN 화면 안의 모든 입력칸·선택칸 ─────────
+   실리태번 테마의 입력칸 스타일(누르면 흰 배경 등)이 VN 화면에 번지지 않게 한 번에 막는다.
+   (직접 입력칸은 위의 더 구체적인 규칙이 투명 배경으로 덮는다) */
+.pp-root input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.pp-root input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):hover,
+.pp-root input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+.pp-root textarea,
+.pp-root textarea:focus,
+.pp-root select,
+.pp-root select:hover,
+.pp-root select:focus {
+    background-color: rgba(255, 255, 255, .04) !important;
+    color: var(--pp-ink) !important;
+    -webkit-text-fill-color: var(--pp-ink);
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.pp-root input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+.pp-root textarea:focus,
+.pp-root select:focus {
+    border-color: var(--pp-accent) !important;
+}
+
+.pp-root input::placeholder,
+.pp-root textarea::placeholder {
+    color: rgba(244, 244, 248, .45) !important;
+    -webkit-text-fill-color: rgba(244, 244, 248, .45);
+}
+
+.pp-root select option {
+    background: #1a1820;
+    color: var(--pp-ink);
+}
+
+/* ───────── 다음 전개 (펜 버튼 → 아래 한 줄) ───────── */
+.pp-dir-toggle {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.pp-dir-toggle:hover,
+.pp-dir-toggle.pp-on {
+    background: rgb(var(--pp-accent-rgb) / .18);
+}
+
+.pp-dir-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: -2px;
+    padding: 0 10px 0 16px;
+    border: 1px solid rgb(var(--pp-accent-rgb) / .45);
+    border-top: 0;
+    border-radius: 0 0 6px 6px;
+    background: color-mix(in srgb, var(--pp-accent) 8%, color-mix(in srgb, var(--pp-dark) 95%, transparent));
+}
+
+.pp-dir-tag {
+    flex: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--pp-accent);
+}
+
+.pp-root .pp-dir-row input.pp-dir,
+.pp-root .pp-dir-row input.pp-dir:focus {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    margin: 0;
+    padding: 0 4px;
+    border: 0 !important;
+    background: transparent !important;
+    font-size: 14px;
+}
+
+.pp-dir-clear {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    padding: 0 0 2px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: rgba(236, 236, 242, .5);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.pp-dir-clear:hover {
+    background: rgb(var(--pp-accent-rgb) / .16);
+    color: var(--pp-accent);
+}
+
+.pp-portrait .pp-root .pp-dir-row input.pp-dir,
+.pp-portrait .pp-dir-row input.pp-dir {
+    height: 60px;
+    font-size: 18px;
+}
+
+.pp-portrait .pp-dir-tag {
+    font-size: 16px;
+}
+
+/* ───────── 시네마(띠) 모양: 패널 없이 화면 맨 아래에서 올라오는 그라데이션 ─────────
+   글자는 그라데이션 위에 바로 얹고, 이름표만 남긴다 */
+.pp-root:not(.pp-dlg-box) .pp-dialogue {
+    background: transparent;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+/* ═════════ 테마: 박스 · 저녁빛 · 맑은 낮 (2026-10-27) ═════════
+   저녁빛·맑은 낮은 같은 하단 자막 구조(.pp-root:not(.pp-dlg-box))에 색만 다르다.
+   상태창은 세 모양 모두 상자 없는 글자 표시 + 펼치면 패널(맑은 낮은 흰 카드). */
+/* 저녁빛: 푸른 회색 어둠 (강조색은 설정의 메인 색을 따른다) */
+.pp-root:not(.pp-dlg-box) .pp-scrim {
+    height: 340px;
+    background: linear-gradient(to top,
+        rgb(13 17 25 / calc(.94 * var(--pp-win-alpha))) 0%,
+        rgb(13 17 25 / calc(.78 * var(--pp-win-alpha))) 34%,
+        rgb(13 17 25 / calc(.32 * var(--pp-win-alpha))) 70%,
+        rgb(13 17 25 / 0) 100%);
+}
+
+/* 하단 자막: 이름표 상자 없이 큰 이름 */
+.pp-root:not(.pp-dlg-box) .pp-speaker-row {
+    position: static;
+    margin: 0 0 8px;
+    padding: 0;
+    background: none;
+    border: 0;
+}
+
+.pp-root:not(.pp-dlg-box) .pp-speaker {
+    color: var(--pp-ink);
+    font-size: calc(var(--pp-text-size) + 4px);
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.pp-root:not(.pp-dlg-box) .pp-dialogue {
+    padding-top: 18px;
+}
+
+/* ───── 상태 표시 (세 모양 공통): 상자 없이 글자, 그림자로 읽히게 ───── */
+.pp-root .pp-pill.pp-info,
+.pp-root .pp-pill.pp-info:hover,
+.pp-root .pp-pill.pp-info.pp-open {
+    top: 22px;
+    left: 28px;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-content: start;
+    column-gap: 10px;
+    row-gap: 4px;
+    min-height: 0;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    color: #fff;
+    text-align: left;
+    text-shadow: 0 1px 2px rgb(10 14 24 / .85), 0 0 10px rgb(10 14 24 / .55);
+}
+
+.pp-root .pp-info-values {
+    display: contents;
+}
+
+.pp-root .pp-info .pp-info-first {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.pp-root .pp-info .pp-info-sub {
+    grid-column: 1 / -1;
+    grid-row: 2;
+}
+
+.pp-root .pp-info .pp-info-chevron {
+    grid-column: 2;
+    grid-row: 1;
+    display: inline-flex;
+    color: var(--pp-accent);
+    filter: drop-shadow(0 1px 2px rgb(10 14 24 / .8));
+    transition: transform .2s;
+}
+
+.pp-root .pp-info.pp-open .pp-info-chevron {
+    transform: rotate(180deg);
+}
+
+@keyframes pp-panel-in {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: none; }
+}
+
+.pp-root .pp-status-drop .pp-st-label {
+    color: var(--pp-ink2);
+    letter-spacing: .1em;
+}
+
+.pp-root .pp-status-drop .pp-st-head .pp-st-label {
+    color: var(--pp-accent);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .2em;
+}
+
+/* 관계: 이름·단계 한 줄, 아래에 단계 칸 막대 */
+.pp-root .pp-status-drop .pp-bar-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 7px;
+    padding: 6px 0;
+}
+
+.pp-root .pp-status-drop .pp-bar-name {
+    grid-column: 1;
+    grid-row: 1;
+    color: var(--pp-ink);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.pp-root .pp-status-drop .pp-bar-v {
+    grid-column: 2;
+    grid-row: 1;
+    color: var(--pp-accent);
+    font-weight: 700;
+}
+
+.pp-tier-meter {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 5px;
+}
+
+.pp-tier-meter .pp-seg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    height: 6px;
+    background: rgb(255 255 255 / .16);
+}
+
+.pp-tier-meter .pp-seg.pp-full {
+    background: var(--pp-accent);
+}
+
+.pp-tier-meter .pp-seg.pp-part {
+    background: linear-gradient(90deg, var(--pp-accent) var(--p), rgb(255 255 255 / .16) var(--p));
+}
+
+.pp-portrait .pp-status-drop {
+    max-width: calc(100% - 48px);
+    width: min(460px, 86%);
+}
+
+/* 펼친 패널이 대사 위까지 내려오지 않게: 내용 높이만큼, 아래는 서서히 사라짐 (.pp-root 두 번 = 예전 선택자와 같은 우선순위) */
+.pp-root.pp-root .pp-status-drop {
+    bottom: auto;
+    max-height: 78%;
+    padding-bottom: 56px;
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
+}
+
+/* ═════════ 테마 4종 (2026-10-27): 클래식 · 레트로 · 서브컬처 · 시네마 ═════════
+   클래식·레트로 = 창 구조(.pp-dlg-box), 서브컬처·시네마 = 하단 자막 구조. 위의 저녁빛·맑은 낮 규칙 뒤에서 덮어쓴다.
+   메뉴: SKIP · LOG · CG↻ · ⋯ … EXIT. ⋯ 안에 AUTO · TEXT · TRANS · HIDE · QR · 채팅 설정 */
+/* ───── 공통: ⋯ 판, 번역·휴지통 아이콘 ───── */
+.pp-more-btn {
+    font-size: 18px;
+    letter-spacing: 0;
+}
+
+.pp-more-panel {
+    position: absolute;
+    bottom: 52px;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+    padding: 6px;
+    box-sizing: border-box;
+    background: color-mix(in srgb, var(--pp-dark) 95%, transparent);
+    border: 1px solid rgb(236 236 242 / .25);
+    box-shadow: 0 8px 24px rgb(0 0 0 / .4);
+    animation: pp-rise-in .15s ease-out;
+}
+
+.pp-more-panel .pp-menu-btn {
+    height: 36px;
+    padding: 0 14px;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: .1em;
+    text-shadow: none;
+}
+
+.pp-more-panel .pp-menu-btn[hidden] {
+    display: none;
+}
+
+.pp-ans-tl {
+    width: 32px;
+    color: var(--pp-accent);
+}
+
+.pp-portrait .pp-more-panel {
+    left: 50%;
+    right: auto;
+    bottom: 150px;
+    transform: translateX(-50%);
+    min-width: 240px;
+}
+
+.pp-portrait .pp-more-panel .pp-menu-btn {
+    height: 52px;
+    font-size: 18px;
+}
+
+/* ───── 1 · 클래식: 지금 박스 그대로, 폭만 좁게(820px). 상태 표시·상태창도 같은 상자(마름모 없음) ───── */
+.pp-root.pp-dlg-box:not(.pp-t-retro):not(.pp-portrait) .pp-dialogue,
+.pp-root.pp-dlg-box:not(.pp-t-retro):not(.pp-portrait) .pp-menu {
+    left: 160px;
+    right: 160px;
+}
+
+.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-more-panel {
+    left: 330px;
+}
+
+.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-speaker-row {
+    margin-bottom: 12px;
+    margin-right: 190px;
+}
+
+.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-pill.pp-info,
+.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-pill.pp-info:hover,
+.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-pill.pp-info.pp-open {
+    grid-template-columns: auto auto auto;
+    column-gap: 10px;
+    padding: 9px 16px;
+    background: color-mix(in srgb, var(--pp-dark) calc(88% * var(--pp-win-alpha)), transparent);
+    border: 1px solid rgb(236 236 242 / .5);
+    outline: 1px solid rgb(236 236 242 / .16);
+    outline-offset: -5px;
+    text-shadow: none;
+}
+
+.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-info .pp-info-sub {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-info .pp-info-chevron {
+    grid-column: 3;
+    filter: none;
+}
+
+.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-status-drop {
+    top: 76px;
+    left: 28px;
+    bottom: auto;
+    width: 380px;
+    max-height: 70%;
+    padding: 18px 22px 20px;
+    background: color-mix(in srgb, var(--pp-dark) 94%, transparent);
+    border: 1px solid rgb(236 236 242 / .5);
+    outline: 1px solid rgb(236 236 242 / .16);
+    outline-offset: -6px;
+    mask-image: none;
+    animation: pp-rise-in .2s ease-out;
+}
+
+.pp-root.pp-t-retro .pp-scrim {
+    height: 200px;
+    background: linear-gradient(to top, rgb(40 20 30 / .35), rgb(40 20 30 / 0));
+}
+
+.pp-root.pp-t-retro.pp-portrait .pp-dialogue {
+    padding-top: 34px;
+}
+
+.pp-root.pp-t-retro .pp-dialogue {
+    isolation: isolate;
+    outline: 0;
+}
+
+.pp-root.pp-t-retro .pp-dialogue::before {
+    content: none;
+}
+
+/* 이름: 창 위의 작은 창. 왼쪽 끝은 대사창 왼쪽 끝, 이름 글자는 대사 글자 시작점에 맞춘다 */
+.pp-root.pp-t-retro .pp-speaker-row {
+    position: absolute;
+    left: -3px;
+    top: -52px;
+    height: auto;
+    margin: 0;
+    justify-content: center;
+}
+
+.pp-root.pp-t-retro .pp-speaker-line {
+    display: none;
+}
+
+.pp-root.pp-t-retro .pp-ans-main,
+.pp-root.pp-t-retro .pp-nav-pill {
+    border-color: rgb(58 37 52 / .22);
+}
+
+.pp-root.pp-t-retro .pp-ans-gap,
+.pp-root.pp-t-retro .pp-prog-bar {
+    background: rgb(58 37 52 / .18);
+}
+
+.pp-root.pp-t-retro:not(.pp-portrait) .pp-progress {
+    right: 116px;
+    bottom: 10px;
+}
+
+/* 메뉴: 창 안 오른쪽 세로 줄 (가로 창만) */
+.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu {
+    top: auto;
+    left: auto;
+    max-width: none;
+    margin: 0;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu-group {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-btn {
+    font-size: 11px;
+    font-weight: 800;
+    text-shadow: none;
+}
+
+.pp-root.pp-t-retro:not(.pp-portrait) .pp-more-panel {
+    left: auto;
+    right: 250px;
+    bottom: 60px;
+}
+
+/* 상태 표시·상태창: 같은 밝은 창 */
+.pp-root.pp-t-retro .pp-pill.pp-info,
+.pp-root.pp-t-retro .pp-pill.pp-info:hover,
+.pp-root.pp-t-retro .pp-pill.pp-info.pp-open {
+    grid-template-columns: auto auto auto;
+    column-gap: 10px;
+    padding: 7px 18px;
+    text-shadow: 0 1px 0 rgb(255 255 255 / .85);
+}
+
+.pp-root.pp-t-retro .pp-info .pp-info-sub {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.pp-root.pp-t-retro .pp-info .pp-info-chevron {
+    grid-column: 3;
+    filter: none;
+}
+
+.pp-root.pp-t-retro .pp-status-drop {
+    top: 76px;
+    left: 28px;
+    bottom: auto;
+    width: 380px;
+    max-height: 70%;
+    padding: 18px 22px 20px;
+    color: var(--rt-ink);
+    mask-image: none;
+    animation: pp-rise-in .2s ease-out;
+}
+
+.pp-root.pp-t-retro .pp-status-drop .pp-st-label,
+.pp-root.pp-t-retro .pp-status-drop .pp-status-hint,
+.pp-root.pp-t-retro .pp-status-drop .pp-hint,
+.pp-root.pp-t-retro .pp-status-drop .pp-tab {
+    color: var(--rt-ink2);
+}
+
+.pp-root.pp-t-retro .pp-status-drop .pp-st-head .pp-st-label,
+.pp-root.pp-t-retro .pp-status-drop .pp-tab.pp-on,
+.pp-root.pp-t-retro .pp-status-drop .pp-bar-v {
+    color: var(--rt-acc);
+}
+
+.pp-root.pp-t-retro .pp-status-drop .pp-st-value,
+.pp-root.pp-t-retro .pp-status-drop .pp-bar-name {
+    color: var(--rt-ink);
+}
+
+.pp-root.pp-t-retro .pp-status-drop .pp-st-sep,
+.pp-root.pp-t-retro .pp-tier-meter .pp-seg {
+    background: rgb(58 37 52 / .14);
+}
+
+.pp-root.pp-t-retro .pp-tier-meter .pp-seg.pp-full {
+    background: var(--rt-acc);
+}
+
+.pp-root.pp-t-retro .pp-tier-meter .pp-seg.pp-part {
+    background: linear-gradient(90deg, var(--rt-acc) var(--p), rgb(58 37 52 / .14) var(--p));
+}
+
+.pp-root.pp-t-sub .pp-scrim {
+    height: 400px;
+}
+
+.pp-root.pp-t-sub .pp-speaker-row {
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 12px;
+}
+
+.pp-root.pp-t-sub .pp-speaker-row::before {
+    content: "";
+    width: 4px;
+    height: 26px;
+    background: var(--pp-accent);
+}
+
+.pp-root.pp-t-sub .pp-more-panel {
+    left: 280px;
+}
+
+@keyframes pp-sheet-in {
+    from { opacity: 0; transform: translateX(16px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* ───── 4 · 시네마: 위 검정 띠(시간 · 메뉴) + 아래 자막 띠, CG는 그 사이에 자르지 않고 (가로 창) ───── */
+.pp-root.pp-t-cinema .pp-cg-bg {
+    display: none;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-speaker-row {
+    justify-content: center;
+    margin: 0 0 10px;
+}
+
+.pp-root.pp-t-cinema .pp-speaker {
+    font-weight: 700;
+}
+
+.pp-root.pp-t-cinema .pp-text {
+    max-width: none;
+    text-align: center;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-menu {
+    top: 0;
+    bottom: auto;
+    left: auto;
+    right: 24px;
+    gap: 28px;
+    border-top: 0;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-menu-btn {
+    font-size: 11px;
+    text-shadow: none;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-more-panel {
+    top: 46px;
+    bottom: auto;
+    left: auto;
+    right: 90px;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-pill.pp-info,
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-pill.pp-info:hover,
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-pill.pp-info.pp-open {
+    top: 0;
+    left: 24px;
+    grid-template-columns: auto auto auto;
+    column-gap: 10px;
+    text-shadow: none;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-info .pp-info-sub {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-info .pp-info-chevron {
+    grid-column: 3;
+    filter: none;
+}
+
+/* 펼친 상태: 왼쪽 검정 여백 안. 넘치면 안에서 스크롤 */
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-status-drop {
+    bottom: auto;
+    max-height: calc(100% - 230px);
+    animation: pp-rise-in .2s ease-out;
+}
+
+/* ───── 테마 4종 보강 (2026-10-27 2차 피드백) ───── */
+/* 상태 표시: "아침 · 맑음" 처럼 값 사이에 가운뎃점 */
+.pp-root .pp-info .pp-info-sub::before {
+    content: "·";
+    margin-right: .5em;
+    opacity: .7;
+}
+
+/* 전개 지시(펜) 버튼: 칸 안 가운데, 정사각 */
+.pp-root .pp-free-row .pp-dir-toggle {
+    width: 36px;
+    height: 36px;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 서브컬처: 테두리·마름모 없이 짙은 판 + 메인 색 윗줄 */
+.pp-root.pp-t-sub .pp-overlay .pp-frame {
+    border: 0;
+    border-top: 2px solid var(--pp-accent);
+    outline: 0;
+    background: linear-gradient(to bottom, rgb(12 8 14 / .94), rgb(12 8 14 / .88));
+    box-shadow: 0 20px 60px rgb(0 0 0 / .5);
+}
+
+/* 시네마: 띠와 같은 검정 + 아주 옅은 선 */
+.pp-root.pp-t-cinema .pp-overlay .pp-frame {
+    border: 1px solid rgb(255 255 255 / .08);
+    outline: 0;
+    background: #0d0c10;
+    box-shadow: 0 20px 60px rgb(0 0 0 / .6);
+}
+
+.pp-root.pp-t-sub .pp-overlay .pp-frame::before,
+.pp-root.pp-t-sub .pp-overlay .pp-frame::after,
+.pp-root.pp-t-cinema .pp-overlay .pp-frame::before,
+.pp-root.pp-t-cinema .pp-overlay .pp-frame::after,
+.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-frame::before,
+.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-frame::after {
+    content: none;
+}
+
+/* 레트로: 대사창과 같은 밝은 둥근 창 (LOG·TEXT만, 설정 창은 그대로) */
+.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-frame {
+    --pp-ink: #24242c;
+    --pp-ink2: #55555f;
+    --pp-ink3: #55555f;
+    background: linear-gradient(to bottom,
+        color-mix(in srgb, var(--pp-accent) 6%, #fff),
+        color-mix(in srgb, var(--pp-accent) 14%, #fff));
+    border: 3px solid #fff;
+    outline: 0;
+    color: var(--pp-ink);
+}
+
+.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-panel-tag {
+    color: var(--rt-acc);
+}
+
+.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-seg-btn,
+.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-btn {
+    border-color: rgb(36 36 44 / .22);
+    color: var(--pp-ink);
+}
+
+.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-seg-btn.pp-on {
+    border-color: var(--rt-acc);
+    color: var(--rt-acc);
+}
+
+/* 패널(LOG·TEXT·뷰어·설정)은 대사창 버튼·상태 표시(z-index 1~5)보다 항상 위 */
+.pp-root .pp-overlay {
+    z-index: 10;
+}
+
+/* 상태 표시: 첫 값(시간대)만 크고 굵던 것을 없애고 모든 값을 같은 서식으로 */
+.pp-root.pp-root.pp-root .pp-pill.pp-info .pp-info-first,
+.pp-root.pp-root.pp-root .pp-pill.pp-info .pp-info-sub {
+    color: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    opacity: 1;
+}
+
+.pp-root.pp-t-retro .pp-pill.pp-info {
+    color: var(--rt-ink);
+}
+
+/* 타이핑: 문장 전체를 미리 깔아 두고(줄 바꿈 고정) 아직 안 나온 글자는 숨긴다. 새 글자는 짧게 페이드 */
+.pp-text .pp-ch-rest {
+    visibility: hidden;
+}
+
+.pp-text .pp-ch-new {
+    animation: pp-ch-in .14s ease-out;
+}
+
+@keyframes pp-ch-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pp-text .pp-ch-new {
+        animation: none;
+    }
+}
+
+/* 세로 창(폰·좁은 창): 진행 표시가 44px로 커지므로 대사창 아래 여백을 그만큼 늘려 마지막 줄을 덮지 않게 */
+.pp-root.pp-portrait .pp-dialogue {
+    padding-bottom: 72px;
+}
+
+/* 세로 창에서 선택지가 위로 올라가 상태 표시와 겹치면 선택지가 위 (누를 수 있게) */
+.pp-root.pp-portrait .pp-choices {
+    z-index: 4;
+}
+
+/* ───── 3차 피드백 (2026-10-27) ───── */
+/* 클래식: 높이 고정은 두고, 넘침 숨김을 빼서 모서리 마름모가 다시 보이게 (긴 문장은 페이지로 나뉨) */
+/* 클래식: 대사 길이와 상관없이 창 높이를 고정 (창이 위아래로 움직이지 않게) */
+.pp-root.pp-dlg-box:not(.pp-t-retro):not(.pp-portrait) .pp-dialogue {
+    height: 214px;
+    min-height: 0;
+    scrollbar-width: none;
+    overflow: visible;
+}
+
+/* 미연시: 대사 버튼 줄을 글 위에 따로 두고 높이 고정 (나레이션도 같은 자리에서 시작) */
+/* 창 크기·여백은 가로 창만. 폰 세로는 기존 박스의 세로 배치를 그대로 쓴다 */
+.pp-root.pp-t-retro:not(.pp-portrait) .pp-dialogue {
+    left: 150px;
+    right: 150px;
+    bottom: 24px;
+    max-width: none;
+    padding: 26px 132px 30px 44px;
+    height: 200px;
+    min-height: 0;
+    padding-top: 50px;
+}
+
+.pp-root.pp-t-retro:not(.pp-portrait) .pp-answer {
+    right: 116px;
+    top: 10px;
+}
+
+/* 미연시 설정 창(공략 명단 등): 마름모 없는 둥근 검정 상자 */
+.pp-root.pp-t-retro .pp-modal .pp-frame {
+    border: 0;
+    outline: 0;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--pp-dark) 95%, transparent);
+}
+
+.pp-root.pp-t-retro .pp-modal .pp-frame::before,
+.pp-root.pp-t-retro .pp-modal .pp-frame::after {
+    content: none;
+}
+
+/* 서브컬처: 이름 위 상태 줄은 상자 없이 글자만 */
+/* 상태 표시: 대사창 안, 이름 위 작은 한 줄 */
+.pp-root.pp-t-sub .pp-dialogue .pp-pill.pp-info,
+.pp-root.pp-t-sub .pp-dialogue .pp-pill.pp-info:hover,
+.pp-root.pp-t-sub .pp-dialogue .pp-pill.pp-info.pp-open {
+    position: static;
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+    text-shadow: var(--sb-shadow);
+    padding: 0;
+    background: none;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+}
+
+/* ───── 4차 (피드백 2·3번 바로잡기, 2026-10-27) ───── */
+/* 서브컬처: 상태는 오른쪽 위 옅은 검정 상자. CG 없음 표시는 왼쪽 위로 비켜 준다 */
+.pp-root.pp-t-sub .pp-pill.pp-info,
+.pp-root.pp-t-sub .pp-pill.pp-info:hover,
+.pp-root.pp-t-sub .pp-pill.pp-info.pp-open {
+    left: auto;
+    right: 28px;
+    grid-template-columns: auto auto auto;
+    column-gap: 10px;
+    padding: 8px 16px;
+    background: rgb(12 10 16 / .55);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: none;
+    color: #fff;
+    text-shadow: none;
+}
+
+.pp-root.pp-t-sub .pp-info .pp-info-sub {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.pp-root.pp-t-sub .pp-info .pp-info-chevron {
+    grid-column: 3;
+    filter: none;
+}
+
+/* 펼친 상태: 오른쪽에서 어둠이 번지는 세로 시트. 대사 위까지만, 넘치면 안에서 스크롤 */
+.pp-root.pp-t-sub .pp-status-drop {
+    top: 0;
+    left: auto;
+    right: 0;
+    bottom: auto;
+    width: 560px;
+    max-height: calc(100% - 290px);
+    padding: 56px 110px 56px 150px;
+    background: linear-gradient(to left, rgb(12 8 14 / .9), rgb(12 8 14 / .78) 60%, rgb(12 8 14 / 0));
+    z-index: 5;
+    animation: pp-sheet-in .22s ease-out;
+    padding-top: 74px;
+}
+
+.pp-root.pp-t-sub .pp-cg-empty {
+    left: 24px;
+    right: auto;
+}
+
+/* 서브컬처: 이름이 없는 나레이션도 대사와 같은 줄에서 시작 (이름 자리를 비워 둔다) */
+.pp-root.pp-t-sub .pp-speaker-row[hidden] {
+    display: flex !important;
+    visibility: hidden;
+}
+
+.pp-root.pp-t-sub .pp-dialogue,
+.pp-root.pp-t-sub .pp-menu {
+    border-top: 0;
+    border-bottom: 0;
+}
+
+/* 서브컬처: 번역 아이콘이 잘 보이게 조금 크게 */
+.pp-root.pp-t-sub .pp-ans-tl svg {
+    width: 19px;
+    height: 19px;
+}
+
+.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-group {
+    flex: none;
+}
+
+/* 미연시 LOG·TEXT 패널: 안쪽 선·모서리 장식 없이 (상자 테두리 겹침으로 보이던 회색 선 제거) */
+.pp-root.pp-t-retro .pp-overlay .pp-frame,
+.pp-root.pp-t-retro .pp-overlay .pp-frame:focus-within {
+    outline: 0;
+}
+
+/* 서브컬처: 대사 묶음(이름·본문·버튼·진행 표시)을 통째로 조금 아래로 */
+/* 대사 자리 고정: 한 줄이든 세 줄이든 상태 줄·이름이 같은 높이에서 시작한다 (가로 창) */
+.pp-root.pp-t-sub:not(.pp-portrait) .pp-dialogue {
+    height: 206px;
+    min-height: 0;
+    padding-top: 0;
+    justify-content: flex-start;
+    bottom: 48px;
+}
+
+/* 서브컬처: 대사는 굵게, 나레이션은 보통 굵기 + 살짝 흐리게. 둘 다 그림자 더 진하게 */
+.pp-root.pp-t-sub {
+    --sb-shadow: 0 1px 2px rgb(0 0 0 / 1), 0 0 3px rgb(0 0 0 / .9), 0 2px 12px rgb(0 0 0 / .8), 0 0 28px rgb(0 0 0 / .55);
+}
+
+.pp-root.pp-t-sub .pp-text.pp-narr {
+    color: var(--pp-ink3);
+}
+
+/* 서브컬처: 대사 굵기 한 단계 낮춤, 아래 그라데이션 조금 더 진하게 */
+.pp-root.pp-root.pp-t-sub .pp-text {
+    font-weight: 560;
+}
+
+.pp-root.pp-root.pp-t-sub .pp-text.pp-narr {
+    font-weight: 400;
+}
+
+.pp-root.pp-root.pp-t-sub .pp-scrim {
+    background: linear-gradient(to top,
+        rgb(10 7 12 / calc(.96 * var(--pp-win-alpha))) 0%,
+        rgb(10 7 12 / calc(.84 * var(--pp-win-alpha))) 32%,
+        rgb(10 7 12 / calc(.48 * var(--pp-win-alpha))) 66%,
+        rgb(10 7 12 / 0) 100%);
+}
+
+/* ───── 테마별 폰트: 미연시·시네마 = 나눔스퀘어 네오, 클래식·서브컬처 = SUIT (없으면 Pretendard) ─────
+   ST 쪽 전역 글꼴(사용자 CSS 등)이 모든 요소에 글꼴을 강제로 넣어서, VN 안에서는 !important로 테마 글꼴을 지킨다.
+   아이콘 글꼴(Font Awesome)은 건드리지 않는다 */
+.pp-root.pp-t-retro,
+.pp-root.pp-t-retro :where(*:not([class*="fa-"])),
+.pp-root.pp-t-cinema,
+.pp-root.pp-t-cinema :where(*:not([class*="fa-"])) {
+    font-family: 'SUIT Variable', 'SUIT', 'Pretendard', 'Pretendard Variable', system-ui, 'Malgun Gothic', sans-serif !important;
+}
+
+.pp-root.pp-dlg-box:not(.pp-t-retro),
+.pp-root.pp-dlg-box:not(.pp-t-retro) :where(*:not([class*="fa-"])),
+.pp-root.pp-t-sub,
+.pp-root.pp-t-sub :where(*:not([class*="fa-"])) {
+    font-family: 'SUIT Variable', 'SUIT', 'Pretendard', 'Pretendard Variable', system-ui, 'Malgun Gothic', sans-serif !important;
+}
+
+/* ═════ 미연시 리뉴얼 · 캔디 (2026-10-28) ═════
+   배치(창 위 이름표, 창 안 오른쪽 세로 메뉴, 아래 무늬)는 그대로. 아주 둥근 창 + 흰 테두리 + 메인 색 바깥 테,
+   아래 무늬는 작은 하트, 이름표는 네 모서리 모두 둥근 말캉한 탭(♥ 이름). 색은 모두 메인 색에서 뽑는다 */
+.pp-root.pp-t-retro {
+    --cd-light: color-mix(in srgb, var(--pp-accent) 55%, #fff);
+    --rt-glass: linear-gradient(to bottom,
+        color-mix(in srgb, color-mix(in srgb, var(--pp-accent) 6%, #fff) 93%, transparent),
+        color-mix(in srgb, color-mix(in srgb, var(--pp-accent) 22%, #fff) 93%, transparent));
+    --rt-frame: 0 0 0 2.5px var(--cd-light), 0 6px 22px rgb(var(--pp-accent-rgb) / .35);
+}
+
+/* 아래 무늬: 하트 (메인 색) */
+/* 아래쪽 망점: 위로 갈수록 옅어짐 (글자 뒤로) */
+.pp-root.pp-t-retro .pp-dialogue::after {
+    top: 40%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: auto;
+    height: auto;
+    transform: none;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 15.5s-5-3.1-5-6.5a2.6 2.6 0 0 1 5-1.2A2.6 2.6 0 0 1 15 9c0 3.4-5 6.5-5 6.5z'/%3E%3C/svg%3E"), linear-gradient(to top, #000, transparent);
+    mask-size: 19px 19px, 100% 100%;
+    mask-composite: intersect;
+}
+
+.pp-root.pp-t-retro .pp-speaker::before {
+    content: "♥ ";
+}
+
+/* 사용자 CSS가 body 아래 모든 글자를 var(--mainFontFamily)로 강제한다 → VN 화면 안에서만 그 변수를 테마 폰트로 바꿔 준다 */
+.pp-root.pp-t-retro,
+.pp-root.pp-t-cinema {
+    --mainFontFamily: 'SUIT Variable', 'SUIT', 'Pretendard', 'Pretendard Variable', system-ui, 'Malgun Gothic', sans-serif;
+}
+
+.pp-root.pp-dlg-box:not(.pp-t-retro),
+.pp-root.pp-t-sub {
+    --mainFontFamily: 'SUIT Variable', 'SUIT', 'Pretendard', 'Pretendard Variable', system-ui, 'Malgun Gothic', sans-serif;
+}
+
+/* 메뉴·상단 띠 글자: 폰트마다 글자 높이가 달라 아이콘(↻ ⋯)과 글자가 어긋나지 않게 가운데 정렬 */
+.pp-root .pp-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    line-height: 1;
+}
+
+.pp-root .pp-pill.pp-info {
+    line-height: 1.2;
+}
+
+/* 문장을 다 보여 주면 끝에 통통 튀는 ♥ */
+.pp-root.pp-t-retro .pp-text.pp-done::after {
+    content: "♥";
+    display: inline-block;
+    margin-left: 6px;
+    font-size: .8em;
+    text-shadow: none;
+    animation: pp-heart-bob 1s ease-in-out infinite;
+}
+
+@keyframes pp-heart-bob {
+    50% { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pp-root.pp-t-retro .pp-text.pp-done::after {
+        animation: none;
+    }
+}
+
+.pp-root.pp-root.pp-t-retro .pp-text {
+    color: var(--cd-ink);
+    font-weight: 600;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.pp-root.pp-root.pp-t-retro .pp-text.pp-narr {
+    color: var(--cd-ink2);
+    font-weight: 400;
+}
+
+.pp-root.pp-root.pp-t-retro .pp-text.pp-done::after {
+    color: var(--cd-acc);
+}
+
+/* 진행 표시: 시안처럼 테두리·바탕 없이 ‹ ── 7/16 › 만 */
+.pp-root.pp-root.pp-t-retro .pp-nav-pill {
+    border: 0;
+    background: none;
+    padding: 0;
+    height: auto;
+}
+
+.pp-root.pp-root.pp-t-retro .pp-line-nav {
+    color: var(--cd-acc);
+}
+
+.pp-root.pp-root.pp-t-retro .pp-prog-fill {
+    background: var(--cd-acc);
+    border-radius: inherit;
+}
+
+.pp-root.pp-root.pp-t-retro .pp-prog-count,
+.pp-root.pp-root.pp-t-retro .pp-ans-btn {
+    color: var(--cd-ink2);
+}
+
+.pp-root.pp-root.pp-t-retro .pp-ans-tl {
+    color: var(--cd-acc);
+}
+
+.pp-root.pp-root.pp-t-retro .pp-info .pp-info-chevron {
+    color: var(--cd-acc);
+}
+
+/* ═════ 미연시: 메인 색을 따라가되, 기본 메인 색(#f2a7b8)일 때 캔디 시안 색이 그대로 나오게 ═════
+   시안 색을 OKLCH로 재서 메인 색과의 차이만큼 밝기·채도를 옮긴다 (색상(hue)은 메인 색 그대로).
+   이 문법을 못 쓰는 브라우저용 대체 색은 아래 @supports */
+.pp-root.pp-root.pp-t-retro .pp-dialogue {
+    border: 3px solid #fff;
+    border-radius: 23px;
+    background: linear-gradient(to bottom, var(--cd-glass-top), var(--cd-glass-bot));
+    box-shadow: 0 0 0 2.5px var(--cd-ring), 0 6px 23px color-mix(in srgb, var(--cd-glow) 32%, transparent);
+}
+
+.pp-root.pp-root.pp-t-retro .pp-dialogue::after {
+    border-radius: 0 0 20px 20px;
+    background: var(--cd-heart);
+}
+
+/* 이름표: 시안 그대로 왼쪽 아래만 덜 둥글게 */
+.pp-root.pp-root.pp-t-retro .pp-speaker-row {
+    padding: 6px 26px;
+    background: linear-gradient(to bottom, var(--cd-acc-top), var(--cd-acc));
+    border: 2.5px solid #fff;
+    border-radius: 15px 15px 15px 4.5px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--cd-glow) 40%, transparent);
+}
+
+.pp-root.pp-root.pp-t-retro .pp-speaker {
+    color: #fff;
+    text-shadow: 0 1px 0 color-mix(in srgb, var(--pp-accent) 40%, transparent);
+    text-shadow: 0 1px 0 color-mix(in srgb, oklch(from var(--pp-accent) .55 .15 h) 40%, transparent);
+}
+
+.pp-root.pp-root.pp-t-retro .pp-prog-bar {
+    width: 70px;
+    height: 3px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--cd-acc) 20%, transparent);
+}
+
+/* 상태 표시·펼친 상태창·LOG: 흰 바탕 + 시안의 분홍 테 */
+.pp-root.pp-root.pp-t-retro .pp-pill.pp-info,
+.pp-root.pp-root.pp-t-retro .pp-pill.pp-info:hover,
+.pp-root.pp-root.pp-t-retro .pp-pill.pp-info.pp-open,
+.pp-root.pp-root.pp-t-retro .pp-status-drop {
+    background: #fff;
+    border: 0;
+    border-radius: 15px;
+    box-shadow: 0 0 0 2.3px var(--cd-ring), 0 4px 13px color-mix(in srgb, var(--cd-glow) 25%, transparent);
+}
+
+.pp-root.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-frame {
+    border-radius: 23px;
+    box-shadow: 0 0 0 2.5px var(--cd-ring), 0 20px 50px color-mix(in srgb, var(--cd-glow) 30%, transparent);
+}
+
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu-group {
+    gap: 5px;
+}
+
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-btn,
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-btn + .pp-menu-btn,
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-group + .pp-menu-group {
+    border-top: 0;
+}
+
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-btn {
+    height: 32px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 1.5px var(--cd-ring);
+    color: var(--cd-acc);
+}
+
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-btn:hover:not(:disabled),
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-btn.pp-on {
+    background: color-mix(in srgb, var(--cd-ring) 35%, #fff);
+    color: var(--cd-acc);
+}
+
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu .pp-menu-group:first-child {
+    flex: none;
+    justify-content: flex-start;
+}
+
+/* 미연시: 오른쪽 메뉴 폭 조금 줄임, 나레이션 조금 더 짙게 */
+/* 오른쪽 세로 메뉴: 흰 바탕의 둥근 사각 버튼. 창 모서리(23px)와 부딪치지 않게 안쪽으로 여유를 둔다 */
+.pp-root.pp-root.pp-t-retro:not(.pp-portrait) .pp-menu {
+    right: 160px;
+    bottom: 34px;
+    height: 180px;
+    padding: 0;
+    gap: 5px;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+    width: 68px;
+}
+
+.pp-root.pp-root.pp-t-retro {
+    --cd-acc: oklch(from var(--pp-accent) calc(l - .06) calc(c + .076) h);
+    --cd-acc-top: oklch(from var(--pp-accent) calc(l + .01) calc(c + .023) h);
+    --cd-ring: oklch(from var(--pp-accent) calc(l + .039) c h);
+    --cd-ink: oklch(from var(--pp-accent) .356 .074 h);
+    --cd-heart: oklch(from var(--pp-accent) calc(l - .003) calc(c + .032) h / .38);
+    --cd-glass-top: oklch(from var(--pp-accent) .989 .006 h / .93);
+    --cd-glass-bot: oklch(from var(--pp-accent) .943 .032 h / .93);
+    --cd-glow: oklch(from var(--pp-accent) .7 .15 h);
+    --rt-acc: var(--cd-acc);
+    --rt-ink: var(--cd-ink);
+    --rt-ink2: var(--cd-ink2);
+    --cd-ink2: oklch(from var(--pp-accent) .52 .066 h);
+}
+
+/* 위 문법(oklch from)을 못 쓰는 브라우저: 변수가 통째로 무효가 돼 대사창·LOG 테두리, 유리 바탕, 글자색이 사라진다.
+   (변수는 앞줄 대체가 안 먹어서 @supports로 따로) 메인 색을 섞어 비슷한 색으로 */
+@supports not (color: oklch(from red calc(l - .1) calc(c + .02) h / .5)) {
+    .pp-root.pp-root.pp-t-retro {
+        --cd-acc: color-mix(in oklab, var(--pp-accent) 85%, #000);
+        --cd-acc-top: var(--pp-accent);
+        --cd-ring: color-mix(in srgb, var(--pp-accent) 75%, #fff);
+        --cd-ink: color-mix(in oklab, var(--pp-accent) 42%, #000);
+        --cd-ink2: color-mix(in oklab, var(--pp-accent) 65%, #000);
+        --cd-heart: color-mix(in srgb, var(--pp-accent) 38%, transparent);
+        --cd-glass-top: color-mix(in srgb, color-mix(in srgb, var(--pp-accent) 4%, #fff) 93%, transparent);
+        --cd-glass-bot: color-mix(in srgb, color-mix(in srgb, var(--pp-accent) 18%, #fff) 93%, transparent);
+        --cd-glow: color-mix(in oklab, var(--pp-accent) 88%, #000);
+    }
+}
+
+/* 미연시 LOG·TEXT 상자: 뒤 흐림(backdrop-filter)이 둥근 모서리 밖으로 사각형으로 비치던 선 제거.
+   흐림을 끄고(바탕이 거의 불투명이라 차이 없음) 상자 안쪽만 그리게 잘라낸다 */
+.pp-root.pp-root.pp-t-retro .pp-overlay .pp-frame {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow: hidden;
+    background-clip: padding-box !important;
+}
+
+/* 같은 원인: 둥근 미연시 창·상태 상자에도 흐림을 꺼서 모서리 밖 사각 선이 생기지 않게 */
+.pp-root.pp-root.pp-t-retro .pp-dialogue,
+.pp-root.pp-root.pp-t-retro .pp-pill.pp-info,
+.pp-root.pp-root.pp-t-retro .pp-status-drop {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* ═════ 시네마 = 넷플릭스식 (2026-10-28) ═════
+   그림은 비율 그대로 화면 높이에 꽉, 양옆은 검정. 위(44px)·아래(64px) 검정 띠를 그림 위에 겹치고,
+   자막은 그림 위 아래쪽 가운데에 흰 글자 + 은은한 그림자(외곽선 없음). 대사 버튼·진행은 아래 띠, 메뉴는 위 띠 */
+.pp-root.pp-root.pp-t-cinema {
+    background: #000;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-scrim-top,
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-scrim {
+    display: block;
+    left: 0;
+    right: 0;
+    background: #000;
+    z-index: 1;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-scrim-top {
+    top: 0;
+}
+
+.pp-root.pp-t-cinema:not(.pp-portrait) .pp-scrim {
+    bottom: 0;
+}
+
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-menu,
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-pill.pp-info {
+    z-index: 2;
+}
+
+.pp-root.pp-root.pp-t-cinema .pp-speaker {
+    color: var(--pp-accent);
+    font-size: 15px;
+    letter-spacing: .14em;
+}
+
+.pp-root.pp-root.pp-t-cinema .pp-text.pp-narr {
+    color: #eeeaf0;
+    font-weight: 400;
+}
+
+/* ── 시네마 손보기: 위아래 띠 같은 두께(52px), 자막은 보통 크기·굵기 + 얇은 외곽선, 그림 아래쪽에 아주 옅은 그라데이션.
+   대사 버튼·진행 표시는 시안처럼 테두리 없는 글자 아이콘 ── */
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-scrim-top,
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-scrim {
+    height: 52px;
+}
+
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-scrim::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 180px;
+    background: linear-gradient(to top, rgb(0 0 0 / .32), rgb(0 0 0 / 0));
+    pointer-events: none;
+}
+
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-menu,
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-pill.pp-info,
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-pill.pp-info:hover,
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-pill.pp-info.pp-open {
+    height: 52px;
+}
+
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-menu-btn {
+    height: 52px;
+}
+
+/* 자막: 그림 위, 아래 띠 바로 위 */
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-dialogue {
+    left: 0;
+    right: 0;
+    height: auto;
+    min-height: 0;
+    padding: 0 220px 22px;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    background: none;
+    z-index: 2;
+    bottom: 52px;
+    padding-bottom: 18px;
+}
+
+.pp-root.pp-root.pp-t-cinema .pp-text {
+    color: #fff;
+    line-height: 1.5;
+    font-size: var(--pp-text-size);
+    font-weight: 500;
+}
+
+/* 아래 띠 안: 진행(오른쪽 끝) · 대사 버튼(그 왼쪽). 띠 가운데 높이에 맞춘다 */
+/* 아래 띠 오른쪽: 진행 표시, 그 왼쪽에 대사 버튼 (자막 상자 기준으로 띠 안에 내린다) */
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-progress {
+    right: 24px;
+    bottom: -36px;
+    z-index: 3;
+}
+
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-answer {
+    top: auto;
+    bottom: -42px;
+    right: 210px;
+    z-index: 3;
+}
+
+.pp-root.pp-root.pp-t-cinema .pp-nav-pill {
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+}
+
+.pp-root.pp-root.pp-t-cinema .pp-line-nav {
+    color: var(--pp-accent);
+}
+
+.pp-root.pp-root.pp-t-cinema .pp-ans-main {
+    border-color: transparent;
+}
+
+.pp-root.pp-root.pp-t-cinema .pp-ans-btn,
+.pp-root.pp-root.pp-t-cinema .pp-prog-count {
+    color: #b3afb9;
+}
+
+/* 번역 아이콘은 다른 테마처럼 메인 색 (위 회색 규칙이 덮던 것) */
+.pp-root.pp-root.pp-t-cinema .pp-ans-tl {
+    color: var(--pp-accent);
+}
+
+/* ST 기본 CSS의 `* { text-shadow }`가 타이핑 글자(span)마다 옅은 그림자를 직접 건다.
+   대사·이름 안의 글자는 부모(테마별 외곽선)를 그대로 따르게 한다 */
+.pp-root .pp-text *,
+.pp-root .pp-speaker * {
+    text-shadow: inherit !important;
+}
+
+/* 사용자 CSS의 `* { text-shadow: none !important }`보다 앞서야 하는 외곽선 (시네마 자막 · 서브컬처 글자) */
+.pp-root.pp-root.pp-root.pp-t-cinema .pp-text,
+.pp-root.pp-root.pp-root.pp-t-cinema .pp-speaker {
+    text-shadow: -2px 0 0 rgb(0 0 0 / .9), 2px 0 0 rgb(0 0 0 / .9), 0 -2px 0 rgb(0 0 0 / .9), 0 2px 0 rgb(0 0 0 / .9),
+        -1.5px -1.5px 0 rgb(0 0 0 / .9), 1.5px -1.5px 0 rgb(0 0 0 / .9), -1.5px 1.5px 0 rgb(0 0 0 / .9), 1.5px 1.5px 0 rgb(0 0 0 / .9),
+        0 0 8px rgb(0 0 0 / .6) !important;
+}
+
+.pp-root.pp-root.pp-t-sub .pp-text,
+.pp-root.pp-root.pp-t-sub .pp-speaker,
+.pp-root.pp-root.pp-t-sub .pp-menu-btn,
+.pp-root.pp-root.pp-t-sub .pp-ans-btn,
+.pp-root.pp-root.pp-t-sub .pp-prog-count {
+    text-shadow: var(--sb-shadow) !important;
+}
+
+/* 시네마 자막 폭: 그림보다 좁게 (화면 폭의 약 58%) */
+.pp-root.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-dialogue {
+    padding-left: max(220px, 21%);
+    padding-right: max(220px, 21%);
+}
+
+.pp-root .pp-text-extra-head {
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid rgb(var(--pp-accent-rgb) / .35);
+    color: var(--pp-accent);
+    font-size: 13px;
+    letter-spacing: .08em;
+}
+
+/* 채팅창(.mes_text)과 같은 클래스라 사용자 정규식 CSS가 그대로 먹는다 */
+.pp-root .pp-text-extra {
+    /* 전문 창은 세로로 쌓는 flex라, 스크롤 칸(overflow)인 이 칸만 남은 높이에 맞춰 10px로 눌려 안에 든 화면이 안 보였다 */
+    flex: none;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: auto;
+}
+
+.pp-settings .pp-pin-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin: -4px 0 10px;
+    font-size: .9em;
+}
+
+.pp-settings .pp-pin-list input:disabled + *,
+.pp-settings .pp-pin-list label:has(input:disabled) {
+    opacity: .45;
+    cursor: default;
+}
+
+/* ───── 생성 중단 · LOG 숨김 · 프롬프트 탭 (2026-10-30) ───── */
+.pp-root .pp-stop-btn[hidden] {
+    display: none;
+}
+
+.pp-root .pp-stop-btn {
+    height: 24px;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+/* 생성 중단 · 원문으로 보기: ⋯ 옆에 붙는 작은 알약 (자리는 engine.js placeWaitBtn이 잰다) */
+html body #pp-host .pp-root .pp-wait-btn {
+    position: absolute;
+    z-index: 6;
+    box-sizing: border-box;
+    height: 28px;
+    margin: 0;
+    padding: 0 14px;
+    border: 1px solid rgb(255 255 255 / .28);
+    border-radius: 999px;
+    background: rgb(12 10 16 / .62);
+    color: rgb(255 255 255 / .9);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    white-space: nowrap;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+html body #pp-host .pp-root .pp-wait-btn[hidden] {
+    display: none;
+}
+
+html body #pp-host .pp-root .pp-wait-btn:hover {
+    border-color: var(--pp-accent);
+    color: var(--pp-accent);
+}
+
+/* 미연시: 밝은 테마라 흰 알약 + 진한 글자 */
+html body #pp-host .pp-root.pp-t-retro .pp-wait-btn {
+    border-color: color-mix(in srgb, var(--cd-acc, var(--pp-accent)) 45%, transparent);
+    background: rgb(255 255 255 / .92);
+    color: color-mix(in srgb, var(--cd-acc, var(--pp-accent)) 70%, #3a2a30);
+}
+
+/* 답장을 쓰는 동안은 넘길 문장이 없으니 진행 바를 숨긴다 */
+.pp-root .pp-waiting .pp-nav-pill {
+    visibility: hidden;
+}
+
+/* 숨긴 턴: 흐리게 + 이름표 */
+.pp-root .pp-log-row.pp-log-row-hidden .pp-thumb,
+.pp-root .pp-log-row.pp-log-row-hidden .pp-log-prev,
+.pp-root .pp-log-row.pp-log-row-hidden .pp-log-user {
+    opacity: .45;
+}
+
+.pp-root .pp-log-hidden {
+    border-color: rgb(var(--pp-accent-rgb) / .6);
+    color: var(--pp-accent);
+}
+
+.pp-root .pp-log-hide.pp-on {
+    border-color: var(--pp-accent);
+    color: var(--pp-accent);
+}
+
+.pp-settings .pp-prompt-box {
+    width: 100%;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre;
+    resize: vertical;
+}
+
+.pp-settings .pp-prompt-keys code {
+    white-space: nowrap;
+}
+
+/* 대사창의 "TEXT로 보기" 줄: 채팅창에서만 보이는 상태창·버튼 자리 */
+.pp-root .pp-extra-link {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+    padding: 0 14px;
+    border: 1.5px solid var(--pp-accent);
+    border-radius: 8px;
+    background: rgb(var(--pp-accent-rgb) / .16);
+    color: var(--pp-accent);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    cursor: pointer;
+}
+
+.pp-root .pp-extra-link:hover {
+    background: rgb(var(--pp-accent-rgb) / .3);
+}
+
+/* 미연시는 밝은 창이라 메인 색이 연해 보인다: 진한 강조색으로 */
+.pp-root.pp-root.pp-t-retro .pp-extra-link {
+    border-color: var(--cd-acc, var(--pp-accent));
+    background: #fff;
+    color: var(--cd-acc, var(--pp-accent));
+    text-shadow: none;
+}
+
+/* 시네마·서브컬처는 자막 위라 바탕을 진하게 */
+.pp-root.pp-t-cinema .pp-extra-link,
+.pp-root.pp-t-sub .pp-extra-link {
+    background: rgb(0 0 0 / .55);
+    text-shadow: none !important;
+}
+
+/* ───── CG 뷰어 버전 목록 · 여러 장 지우기 · LOG 스와이프 (2026-10-30) ───── */
+/* 버전 줄: 아래 막대 바로 위에 작은 그림을 옆으로 늘어놓는다 (많으면 옆으로 넘김) */
+.pp-vw-strip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(100% + 10px);
+    display: flex;
+    gap: 6px;
+    /* 아래 여백: 그림과 스크롤 막대 사이를 띄운다. 오른쪽 여백: 맨 끝 그림의 테두리 빛이 잘리지 않게.
+       왼쪽 여백은 0 (붙어 있는 맨 앞 칸이 기준을 여기서 잡아서, 여백을 두면 그 틈으로 그림이 비쳤다) */
+    padding: 4px 8px 8px 0;
+    overflow-x: auto;
+    /* scrollbar-width를 주면 크롬이 상태창 같은 분홍 막대(::-webkit-scrollbar) 꾸밈을 무시하고 회색 기본 막대를 그렸다 */
+}
+
+.pp-vw-thumb {
+    position: relative;
+    flex: none;
+    width: 66px;
+    height: 46px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    background: #111;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: .7;
+}
+
+.pp-vw-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.pp-vw-thumb.pp-on {
+    border-color: var(--pp-accent);
+    opacity: 1;
+}
+
+.pp-vw-thumb:hover {
+    opacity: 1;
+}
+
+.pp-vw-rep {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: var(--pp-accent);
+    color: #1a1620;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 15px;
+}
+
+/* 고르는 중: 고른 그림에 체크 */
+.pp-vw-strip.pp-picking .pp-vw-thumb {
+    opacity: .55;
+}
+
+.pp-vw-strip.pp-picking .pp-vw-thumb.pp-sel {
+    border-color: #ff6b6b;
+    opacity: 1;
+}
+
+.pp-vw-strip.pp-picking .pp-vw-thumb.pp-sel::after {
+    content: "✓";
+    position: absolute;
+    right: 3px;
+    bottom: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ff6b6b;
+    color: #fff;
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+}
+
+.pp-vw-btn.pp-vw-danger:not(:disabled) {
+    border-color: #ff6b6b;
+    color: #ff8f8f;
+}
+
+/* LOG: 스와이프 ‹ 답변 n/N › */
+.pp-log-swipes {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--pp-ink2);
+}
+
+.pp-log-sw-btn {
+    min-width: 24px;
+    height: 22px;
+    padding: 0 8px;
+    border: 1px solid rgb(var(--pp-accent-rgb) / .45);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--pp-accent);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.pp-log-sw-btn:disabled {
+    opacity: .3;
+    cursor: default;
+}
+
+.pp-log-sw-count.pp-other,
+.pp-log-prev.pp-other {
+    color: var(--pp-accent);
+}
+
+/* 회상 배너: 두 버튼은 붙여서 한 묶음으로, "여기서 분기"는 테두리만 */
+.pp-root .pp-banner .pp-banner-btn + .pp-banner-btn {
+    margin-left: -10px;
+    border: 1.5px solid var(--pp-accent);
+    background: transparent;
+    color: var(--pp-accent);
+}
+
+/* CG 뷰어: 버전 줄 맨 앞의 "여러 장 고르기" */
+.pp-vw-chips {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    /* 옆으로 넘겨도 왼쪽 끝에 붙어 있는 칸. 왼쪽 여백을 이 칸 안에 둬서(바탕으로 덮어) 버튼 테두리 빛이 가장자리에서 잘리지 않게 */
+    padding-left: 6px;
+    padding-right: 6px;
+    background: linear-gradient(to right, rgb(10 9 14 / .95) 80%, transparent);
+}
+
+.pp-vw-chip {
+    height: 20px;
+    padding: 0 8px;
+    border: 1px solid rgb(255 255 255 / .35);
+    border-radius: 999px;
+    background: rgb(0 0 0 / .5);
+    color: #eee;
+    font-size: 11px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.pp-vw-chip.pp-on {
+    border-color: #ff6b6b;
+    color: #ff8f8f;
+}
+
+/* ───── 상태창 개편: 속마음 · 높이 손잡이 · 스크롤 막대 (2026-10-30) ───── */
+/* 상태창 = 스크롤되는 안쪽 칸 + 아래 손잡이. 바깥은 스크롤하지 않는다 */
+/* 펼친 상태 (박스·저녁빛): 왼쪽에서 번지는 어둠 패널 */
+.pp-root .pp-status-drop {
+    top: 0;
+    left: 0;
+    z-index: 2;
+    padding: 104px 70px 28px 28px;
+    gap: 6px;
+    border-radius: 0;
+    background: linear-gradient(90deg, rgb(13 17 25 / .94) 0%, rgb(13 17 25 / .86) 60%, rgb(13 17 25 / 0) 100%);
+    box-shadow: none;
+    animation: pp-panel-in .22s ease-out;
+    overflow: hidden;
+}
+
+/* 칸이 눌려 겹치지 않게 (높이가 제한된 서브컬처·시네마) — 넘치면 안쪽 칸에서 스크롤 */
+.pp-root .pp-st-scroll > * {
+    flex-shrink: 0;
+}
+
+/* 속마음: 호감도 인물 칸의 셋째 줄 (속마음만이면 둘째 줄) */
+.pp-root .pp-status-drop .pp-mind {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 14px;
+    line-height: 1.45;
+    text-align: left;
+    color: var(--pp-ink2);
+    white-space: normal;
+    cursor: text;
+}
+
+.pp-root .pp-status-drop .pp-mind.pp-mind-solo {
+    grid-row: 2;
+}
+
+.pp-root .pp-status-drop .pp-mind b {
+    margin-right: 6px;
+    color: var(--pp-accent);
+    font-weight: 600;
+}
+
+.pp-root .pp-status-drop .pp-mind input {
+    width: 100%;
+}
+
+.pp-root.pp-root.pp-t-retro .pp-status-drop .pp-mind {
+    color: var(--cd-ink2, var(--pp-ink2));
+}
+
+.pp-root.pp-root.pp-t-retro .pp-status-drop .pp-mind b {
+    color: var(--cd-acc, var(--pp-accent));
+}
+
+/* 시네마: 시안처럼 상태창 위에 메인 색 선 한 줄 */
+/* 펼친 상태창: 위 띠 아래 왼쪽, 반투명 검정 상자 */
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-status-drop {
+    top: 56px;
+    left: 24px;
+    width: 280px;
+    padding: 14px 18px;
+    background: rgb(0 0 0 / .82);
+    z-index: 3;
+    border-top: 2px solid var(--pp-accent);
+}
+
+.pp-root.pp-root ::-webkit-scrollbar-track,
+.pp-root.pp-root ::-webkit-scrollbar-track:hover {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+.pp-root.pp-root ::-webkit-scrollbar-thumb:hover {
+    background: var(--pp-accent);
+}
+
+.pp-root.pp-root.pp-t-retro ::-webkit-scrollbar-thumb,
+.pp-root.pp-root.pp-t-retro ::-webkit-scrollbar-thumb:vertical {
+    background: color-mix(in srgb, var(--cd-acc, var(--pp-accent)) 60%, transparent);
+}
+
+/* 파이어폭스 등 (위 방식을 모르는 브라우저) */
+@supports not selector(::-webkit-scrollbar) {
+    .pp-root, .pp-root * {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(var(--pp-accent-rgb) / .55) transparent;
+    }
+}
+
+/* 테마 판: QR 판과 같은 자리 */
+.pp-root .pp-theme-panel .pp-qr-btn.pp-on {
+    border-color: var(--pp-accent);
+    color: var(--pp-accent);
+}
+
+/* 상태창: 스크롤 막대와 내용 사이 간격, 오른쪽 아래 모서리 크기 조절 (2026-10-30) */
+.pp-root .pp-status-drop > .pp-st-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: inherit;
+    overflow: hidden auto;
+    padding-right: 12px;
+    margin-right: -4px;
+}
+
+.pp-root.pp-root ::-webkit-scrollbar-track,
+.pp-root.pp-root ::-webkit-scrollbar-track:vertical {
+    margin: 4px 0;
+}
+
+.pp-root .pp-st-corner {
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: 0;
+    background: linear-gradient(135deg, transparent 0 45%, rgb(var(--pp-accent-rgb) / .7) 45% 55%, transparent 55% 65%, rgb(var(--pp-accent-rgb) / .7) 65% 75%, transparent 75%);
+    cursor: nwse-resize;
+    touch-action: none;
+    opacity: .6;
+    z-index: 1;
+}
+
+.pp-root .pp-st-corner:hover,
+.pp-root .pp-resizing .pp-st-corner {
+    opacity: 1;
+}
+
+.pp-root.pp-t-retro .pp-st-corner {
+    background: linear-gradient(135deg, transparent 0 45%, var(--cd-acc, var(--pp-accent)) 45% 55%, transparent 55% 65%, var(--cd-acc, var(--pp-accent)) 65% 75%, transparent 75%);
+}
+
+/* 서브컬처: 오른쪽에 붙은 시트라 왼쪽 아래(글이 시작하는 자리)에서 넓힌다 */
+.pp-root.pp-t-sub .pp-st-corner {
+    left: 130px;
+    right: auto;
+    bottom: 36px;
+    width: 18px;
+    height: 18px;
+    border-left: 3px solid var(--pp-accent);
+    border-bottom: 3px solid var(--pp-accent);
+    border-radius: 0 0 0 3px;
+    background: none;
+    filter: drop-shadow(0 1px 3px rgb(12 8 14 / .9));
+    cursor: nesw-resize;
+    opacity: .85;
+}
+
+/* 입력칸: 테마 확장(입력칸 바탕·둥근 모서리·최소 높이를 !important로 바꾸는 것)이 덮어쓰지 않게 id로 못 박는다 (2026-10-31) */
+html body #pp-host .pp-root .pp-free-row input.pp-free,
+html body #pp-host .pp-root .pp-free-row input.pp-free:is(:hover, :focus, :focus-visible),
+html body #pp-host .pp-root .pp-dir-row input.pp-dir,
+html body #pp-host .pp-root .pp-dir-row input.pp-dir:is(:hover, :focus, :focus-visible) {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    line-height: normal !important;
+    font-family: inherit !important;
+    color: inherit !important;
+}
+
+html body #pp-host .pp-root .pp-free-row input.pp-free {
+    height: 50px !important;
+    padding: 0 14px !important;
+    font-size: 15px !important;
+}
+
+html body #pp-host .pp-root .pp-dir-row input.pp-dir {
+    height: 42px !important;
+    padding: 0 4px !important;
+    font-size: 14px !important;
+}
+
+html body #pp-host .pp-root .pp-free-row .pp-dir-toggle {
+    box-sizing: border-box !important;
+    flex: none !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0 0 0 8px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    align-self: center !important;
+    line-height: 1 !important;
+}
+
+html body #pp-host .pp-root .pp-free-row .pp-dir-toggle svg {
+    display: block;
+    margin: 0;
+}
+
+html body #pp-host .pp-root .pp-free-row .pp-free-send {
+    min-height: 0 !important;
+    height: 50px !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.pp-root .pp-qr-sep {
+    flex: 0 0 100%;
+    height: 1px;
+    margin: 2px 0;
+    background: rgba(236, 236, 242, .16);
+}
+
+.pp-root.pp-portrait .pp-qr-panel {
+    max-width: calc(100% - 32px);
+}
+
+/* 상태 알약 옆 스피커 */
+.pp-root .pp-sound-btn {
+    position: absolute;
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    aspect-ratio: 1;
+    padding: 0;
+    cursor: pointer;
+}
+
+.pp-root .pp-sound-btn[hidden] {
+    display: none;
+}
+
+.pp-root .pp-sound-btn.pp-off {
+    opacity: .55;
+}
+
+/* 혼자 쓰는 게이지: 글자 항목과 같은 한 줄 (이름 · 막대 · 값) */
+.pp-root .pp-status-drop .pp-st-row.pp-gauge-line {
+    grid-template-columns: 60px minmax(0, 1fr) auto;
+    column-gap: 12px;
+}
+
+.pp-root .pp-status-drop .pp-gauge-line .pp-bar {
+    grid-column: auto;
+    grid-row: auto;
+    margin: 0;
+}
+
+.pp-root .pp-status-drop .pp-gauge-line .pp-bar-v {
+    grid-column: auto;
+    grid-row: auto;
+    min-width: 28px;
+    text-align: right;
+}
+
+/* 시네마: 어두운 판 위에서 잘 보이게 꺾쇠(┘)로 */
+.pp-root.pp-t-cinema .pp-st-corner {
+    right: 4px;
+    bottom: 4px;
+    width: 16px;
+    height: 16px;
+    border-right: 2.5px solid var(--pp-accent);
+    border-bottom: 2.5px solid var(--pp-accent);
+    border-radius: 0 0 3px 0;
+    background: none;
+    opacity: .9;
+}
+
+/* 상태창 설정: 이 채팅에서만 쓰는 항목 (× 로 지우기) */
+.pp-pick-item.pp-pick-own {
+    border-style: dashed;
+    border-color: var(--pp-accent);
+    cursor: default;
+}
+
+.pp-pick-del {
+    width: 20px;
+    height: 20px;
+    margin: 0 -4px 0 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(255 255 255 / .08);
+    color: inherit;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.pp-pick-del:hover {
+    background: rgb(var(--pp-accent-rgb) / .25);
+    color: var(--pp-accent);
+}
+
+/* 설정창 구분선: 테마 확장이 label 테두리를 지워도 줄이 보이게, 묶음(제목) 사이는 더 띄운다 (2026-10-31) */
+html body .pp-settings .pp-set-row,
+html body .pp-settings label.pp-set-row {
+    border-top: 1px solid color-mix(in srgb, var(--pp-s-line) 70%, transparent) !important;
+}
+
+html body .pp-settings .pp-sec-head:not(:first-child) {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--pp-s-line);
+}
+
+html body .pp-settings .pp-add {
+    margin-bottom: 4px;
+}
+
+html body .pp-settings .pp-pin-list {
+    padding-bottom: 8px;
+}
+
+html body .pp-settings #pp_aff_sec > .pp-sec-head:first-child {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--pp-s-line);
+}
+
+/* 대기 표시 자리를 재는 빈 표시 (보이지 않음) */
+.pp-root .pp-wait-mark {
+    display: inline-block;
+    width: 0;
+    height: 1em;
+    vertical-align: baseline;
+}
+
+/* 스피커는 알약 색을 그대로 받으니 전환 없이 바로 */
+html body #pp-host .pp-root .pp-sound-btn {
+    box-sizing: border-box;
+    transition: none;
+}
+
+html body #pp-host .pp-root .pp-pill.pp-sound-btn {
+    min-height: 0;
+    min-width: 0;
+    padding: 0;
+}
+
+/* 스크롤 막대: 칸 가장자리·내용과 붙지 않게 막대 양옆에 3px 빈자리 (투명 테두리 + 바탕은 테두리 안쪽만) */
+/* VN 안의 스크롤 막대: 메인 색 얇은 둥근 막대.
+   실리태번·사용자 CSS의 스크롤 막대 규칙(굵기·투명 테두리)보다 앞서도록 선택자를 구체적으로 둔다 */
+.pp-root.pp-root ::-webkit-scrollbar,
+.pp-root.pp-root ::-webkit-scrollbar:vertical,
+.pp-root.pp-root ::-webkit-scrollbar:horizontal {
+    background: transparent;
+    width: 12px;
+    height: 12px;
+}
+
+.pp-root.pp-root ::-webkit-scrollbar-thumb,
+.pp-root.pp-root ::-webkit-scrollbar-thumb:vertical,
+.pp-root.pp-root ::-webkit-scrollbar-thumb:horizontal {
+    border-radius: 999px;
+    background: rgb(var(--pp-accent-rgb) / .5);
+    box-shadow: none;
+    border: 3px solid transparent;
+    background-clip: padding-box !important;
+}
+
+/* 스크롤되는 칸은 내용 오른쪽에 막대 자리를 남긴다 */
+.pp-root .pp-pick-items {
+    padding-right: 6px;
+}
+
+/* 시네마: ⋯ 판 안의 버튼은 위 띠 버튼(작은 글자·띠 높이)이 아니라 다른 테마의 판과 같게 */
+.pp-root.pp-root.pp-t-cinema:not(.pp-portrait) .pp-more-panel .pp-menu-btn {
+    height: 36px;
+    font-size: 13px;
+    letter-spacing: .1em;
+}
+
+/* QR·테마 판: 가운데 정렬, 한 줄이 너무 길어지지 않게 폭 제한 (넘치면 다음 줄로) */
+.pp-root.pp-root:not(.pp-portrait) .pp-qr-panel {
+    left: 50%;
+    right: auto;
+    translate: -50% 0;
+    width: max-content;
+    max-width: min(720px, calc(100% - 64px));
+    justify-content: center;
+}
+
+/* 서브컬처 상태창: 오른쪽 빈 띠(110px)를 줄여 스크롤 막대가 시트 오른쪽 끝에 붙게 (2026-10-31) */
+.pp-root.pp-root.pp-t-sub:not(.pp-portrait) .pp-status-drop {
+    padding-right: 30px;
+}
+
+/* 서브컬처: 오른쪽 시트가 상태 알약·스피커를 덮지 않게 (알약을 눌러 닫을 수 있게) */
+.pp-root.pp-t-sub .pp-pill.pp-info,
+.pp-root.pp-t-sub .pp-sound-btn {
+    z-index: 6;
+}
+
+/* 확장의 모든 체크 칸은 토글 스위치 하나로 통일.
+   실리태번 테마·테마 확장이 체크박스 모양을 바꿔도 따라가지 않게 id 하나 낀 선택자 + !important로 못 박는다 (2026-10-31) */
+html:root body input[type="checkbox"].pp-switch.pp-switch:not(#pp-none) {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    flex: none !important;
+    position: relative !important;
+    display: inline-block !important;
+    box-sizing: border-box !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 22px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 11px !important;
+    outline: 0 !important;
+    overflow: visible !important;
+    transform: none !important;
+    border: 1px solid color-mix(in srgb, currentColor 14%, transparent) !important;
+    background: color-mix(in srgb, currentColor 18%, transparent) !important;
+    box-shadow: none !important;
+    filter: none !important;
+    opacity: 1;
+    cursor: pointer;
+    transition: background .15s;
+    vertical-align: middle;
+}
+
+html:root body input[type="checkbox"].pp-switch.pp-switch:not(#pp-none)::before {
+    content: '' !important;
+    position: absolute !important;
+    display: block !important;
+    top: 2px !important;
+    left: 2px !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3) !important;
+    transform: none;
+    transition: transform .15s;
+    mask: none !important;
+    -webkit-mask: none !important;
+    clip-path: none !important;
+    transform-origin: center !important;
+}
+
+html:root body input[type="checkbox"].pp-switch.pp-switch:not(#pp-none)::after {
+    content: none !important;
+    display: none !important;
+}
+
+html:root body input[type="checkbox"].pp-switch.pp-switch:not(#pp-none):checked {
+    background: var(--pp-s-accent, var(--pp-accent, #f29abb)) !important;
+}
+
+html:root body input[type="checkbox"].pp-switch.pp-switch:not(#pp-none):checked::before {
+    transform: translateX(18px) !important;
+}
+
+html:root body input[type="checkbox"].pp-switch.pp-switch:not(#pp-none):disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+html:root body input[type="checkbox"].pp-switch.pp-switch:not(#pp-none):focus-visible {
+    outline: 2px solid var(--pp-s-accent, var(--pp-accent, #f29abb));
+    outline-offset: 2px;
+}
+
+/* 작은 스위치: 메뉴 버튼 고르기 · 상태창 항목 · 명단 */
+html:root body input[type="checkbox"].pp-switch.pp-sm.pp-switch:not(#pp-none) {
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 18px !important;
+    border-radius: 9px !important;
+}
+
+html:root body input[type="checkbox"].pp-switch.pp-sm.pp-switch:not(#pp-none)::before {
+    top: 1px !important;
+    left: 1px !important;
+    width: 14px !important;
+    height: 14px !important;
+}
+
+html:root body input[type="checkbox"].pp-switch.pp-sm.pp-switch:not(#pp-none):checked::before {
+    transform: translateX(14px) !important;
+}
+
+/* 메뉴 버튼 고르기: 스위치와 글자 사이 간격 */
+.pp-settings .pp-pin-list label {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.pp-cast-del {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-left: 2px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--pp-ink2);
+    font-size: 13px;
+    line-height: 1;
+    opacity: .55;
+    cursor: pointer;
+}
+
+.pp-cast-del:hover {
+    opacity: 1;
+    background: rgb(var(--pp-accent-rgb) / .2);
+    color: var(--pp-accent);
+}
+
+/* ═════ 세로 화면(폰) 손보기 (2026-10-31 세밀 점검) ═════ */
+/* 시네마도 세로에서는 다른 테마처럼 대사 글자를 키운다 */
+.pp-root.pp-root.pp-t-cinema.pp-portrait .pp-text {
+    font-size: calc(var(--pp-text-size) * var(--pp-phone-text, 1.1));
+}
+
+/* 상태 알약 글자는 한 줄로 */
+.pp-root .pp-pill.pp-info,
+.pp-root .pp-pill.pp-info * {
+    white-space: nowrap;
+}
+
+/* 대사창 위 도구(번역 · 지우기 · 스와이프): 세로 화면에서는 글 위에 따로 한 줄 (글자와 겹치지 않게) */
+.pp-root.pp-root.pp-portrait .pp-answer {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    margin: -8px -6px 2px auto;
+    width: max-content;
+    max-width: 100%;
+}
+
+.pp-root.pp-root.pp-portrait .pp-answer .pp-ans-btn {
+    height: 38px;
+}
+
+/* 회상 배너: 세로 화면에서는 상태 알약 아래 한 줄, 화면 폭 안에서 줄바꿈 */
+.pp-root.pp-root.pp-portrait .pp-banner {
+    top: 80px;
+    left: 10px;
+    right: 10px;
+    transform: none;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 6px;
+    padding: 6px 10px;
+    border-radius: 16px;
+    zoom: 1.3;
+}
+
+/* LOG 줄: 세로 화면에서는 [그림 | 내용] 두 칸, 버튼은 아래 줄 오른쪽 */
+.pp-root.pp-portrait .pp-log-row {
+    grid-template-columns: 96px minmax(0, 1fr);
+}
+
+.pp-root.pp-portrait .pp-log-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.pp-root.pp-portrait .pp-log-meta {
+    flex-wrap: wrap;
+}
+
+.pp-root .pp-log-num,
+.pp-root .pp-log-sw-btn,
+.pp-root .pp-log-read,
+.pp-root .pp-vw-btn,
+.pp-root .pp-panel-name,
+.pp-root .pp-panel-head .pp-btn {
+    white-space: nowrap;
+}
+
+/* 그림 보기 아래 버튼: 좁으면 다음 줄로 */
+.pp-root.pp-portrait .pp-vw-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 6px;
+}
+
+/* 세로 화면: 상태 알약을 화면 끝에 더 붙인다 (가로 화면의 24~28px 여백은 좁은 화면에서 어중간하게 떠 보였다).
+   서브컬처는 오른쪽, 나머지 테마는 왼쪽 */
+.pp-root.pp-root.pp-t-sub.pp-portrait .pp-pill.pp-info,
+.pp-root.pp-root.pp-t-sub.pp-portrait .pp-pill.pp-info:hover,
+.pp-root.pp-root.pp-t-sub.pp-portrait .pp-pill.pp-info.pp-open {
+    right: 12px;
+}
+
+.pp-root.pp-root.pp-root.pp-portrait:not(.pp-t-sub) .pp-pill.pp-info,
+.pp-root.pp-root.pp-root.pp-portrait:not(.pp-t-sub) .pp-pill.pp-info:hover,
+.pp-root.pp-root.pp-root.pp-portrait:not(.pp-t-sub) .pp-pill.pp-info.pp-open {
+    left: 12px;
+}
+
+/* 서브컬처 세로: 오른쪽 시트의 넓은 안쪽 여백(가로 화면용)을 줄여 글이 좁아지지 않게 */
+.pp-root.pp-root.pp-t-sub.pp-portrait .pp-status-drop {
+    padding: 64px 22px 30px 36px;
+}
+
+.pp-root.pp-t-sub.pp-portrait .pp-st-corner {
+    left: 18px;
+    bottom: 10px;
+}
+
+/* 서브컬처 가로: 대사 도구를 이름 줄 높이로 올려 첫 줄 글자와 겹치지 않게 */
+.pp-root.pp-root.pp-t-sub:not(.pp-portrait) .pp-answer {
+    top: -6px;
+}
+
+/* 상태 알약: 세로 화면에서도 "시간 · 날씨 ⌄" 한 줄 (시네마는 두 줄로 꺾였다) */
+.pp-root.pp-root.pp-portrait .pp-pill.pp-info {
+    grid-template-columns: auto auto auto;
+    column-gap: 10px;
+}
+
+.pp-root.pp-root.pp-portrait .pp-info .pp-info-first {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.pp-root.pp-root.pp-portrait .pp-info .pp-info-sub {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.pp-root.pp-root.pp-portrait .pp-info .pp-info-chevron {
+    grid-row: 1;
+    grid-column: 3;
+}
+
+/* 설정 선택 칸: 글자 길이만큼 넓히고, 오른쪽 화살표 자리를 비워 글자와 겹치지 않게 */
+html body .pp-settings .pp-set-row select.text_pole {
+    flex: none;
+    width: auto !important;
+    min-width: 8em;
+    max-width: 62%;
+    padding-right: 28px !important;
+    text-overflow: ellipsis;
+}
+
+/* 세로 화면: 대사창과 아래 메뉴 사이 빈칸을 줄인다 (메뉴 바로 위에 붙게) */
+.pp-root.pp-portrait .pp-dialogue,
+.pp-root.pp-portrait.pp-dlg-box .pp-dialogue,
+.pp-root.pp-portrait:not(.pp-dlg-box) .pp-dialogue {
+    bottom: 84px;
+}
+
+/* 안전 영역(노치·홈 바) 재는 칸. --pp-safe-* 를 주면 그 값으로 흉내 낸다 (시험용) */
+.pp-safe-probe {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    visibility: hidden;
+    pointer-events: none;
+    padding-top: var(--pp-safe-top, env(safe-area-inset-top, 0px));
+    padding-right: var(--pp-safe-right, env(safe-area-inset-right, 0px));
+    padding-bottom: var(--pp-safe-bottom, env(safe-area-inset-bottom, 0px));
+    padding-left: var(--pp-safe-left, env(safe-area-inset-left, 0px));
+}
+
+/* 세로 화면 그림: 노치(안전 영역) 아래에서 시작, 높이는 안전 영역 안쪽의 70% */
+.pp-root.pp-portrait:not(.pp-framed) .pp-cg-img {
+    /* 상태 알약이 그림 맨 위(얼굴 자리)를 덮지 않게 조금 내린다. 높이는 그대로라 그림 아래가 대사창에 조금 깔린다 */
+    top: calc(var(--pp-inset-top, 0px) + 32px);
+    height: var(--pp-cg-h, calc((100% - var(--pp-inset-top, 0px) - var(--pp-inset-bottom, 0px)) * .7));
+}
+
+/* 세로 그림은 칸 맨 위에 붙인다. 가운데 정렬이면 대사창 높이(테마)에 따라 그림 시작 위치가 몇 px씩 달라졌다.
+   가로 그림은 지금처럼 칸 가운데 */
+.pp-root.pp-portrait:not(.pp-framed) .pp-cg-img.pp-tall {
+    object-position: center top;
+}
+
+/* 시네마 세로: 가로 화면처럼 이름도 자막과 같이 가운데 */
+.pp-root.pp-root.pp-t-cinema.pp-portrait .pp-speaker-row {
+    justify-content: center;
+}
+
+/* 세로 화면: 도구가 따로 한 줄이라 이름 줄 오른쪽에 비워 둔 자리가 필요 없다 (이름 옆 선이 끝까지) */
+.pp-root.pp-root.pp-portrait .pp-speaker-row {
+    margin-right: 0;
+}
+
+/* 세로 화면 아래 메뉴: 버튼 사이를 조금 더 띄운다 */
+.pp-root.pp-root.pp-portrait .pp-menu,
+.pp-root.pp-root.pp-portrait .pp-menu-group {
+    column-gap: 30px;
+}
+
+/* ═════ 상태창 설정: 명단 직접 추가 · 공략 정보(기질) · 자료 고르기 (2026-10-31) ═════ */
+.pp-cast-add {
+    margin-top: 2px;
+}
+
+.pp-cast-empty {
+    padding: 4px 0;
+}
+
+.pp-tr-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.pp-tr-btns {
+    display: flex;
+    gap: 6px;
+}
+
+.pp-root .pp-tr-btns .pp-btn {
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.pp-tr-maker {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid rgba(236, 236, 242, .2);
+    border-radius: 6px;
+}
+
+.pp-tr-target {
+    color: var(--pp-ink);
+}
+
+/* 읽을 자료: 항목이 많아도 이 칸 안에서만 스크롤 */
+.pp-tr-srcs {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 200px;
+    overflow: auto;
+    padding-right: 6px;
+}
+
+.pp-tr-src,
+.pp-tr-redo {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    min-height: 30px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.pp-tr-redo {
+    grid-template-columns: auto minmax(0, 1fr);
+}
+
+.pp-tr-src input,
+.pp-tr-redo input {
+    margin: 0;
+}
+
+.pp-tr-src-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pp-tr-src-tok {
+    color: var(--pp-ink2);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.pp-tr-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(236, 236, 242, .12);
+}
+
+.pp-tr-actions {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.pp-root .pp-tr-actions .pp-btn,
+.pp-root .pp-tr-actions .pp-btn-accent {
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 4px;
+}
+
+.pp-root .pp-tr-actions .pp-btn-accent:disabled {
+    opacity: .4;
+    cursor: default;
+}
+
+/* 열어 본 공략 정보: 사람마다 한 줄, 누르면 고치는 칸 */
+.pp-tr-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pp-tr-row {
+    border: 1px solid rgba(236, 236, 242, .14);
+    border-radius: 6px;
+}
+
+.pp-tr-row summary {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.pp-tr-row summary::-webkit-details-marker {
+    display: none;
+}
+
+.pp-tr-row summary::after {
+    content: '▸';
+    margin-left: auto;
+    color: var(--pp-ink2);
+}
+
+.pp-tr-row[open] summary::after {
+    content: '▾';
+}
+
+.pp-tr-mult {
+    color: var(--pp-ink2);
+    font-size: 12px;
+}
+
+.pp-tr-edit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+    padding: 0 12px 12px;
+}
+
+.pp-tr-edit label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--pp-ink2);
+    font-size: 12px;
+}
+
+.pp-tr-edit .pp-tr-wide {
+    grid-column: 1 / -1;
+}
+
+.pp-root .pp-tr-edit input,
+.pp-root .pp-tr-edit textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 6px 8px;
+    border: 1px solid rgba(236, 236, 242, .3);
+    border-radius: 4px;
+    font-size: 13px;
+    resize: vertical;
+}
+
+.pp-root .pp-tr-edit input {
+    height: 32px;
+}
+
+.pp-portrait .pp-tr-edit {
+    grid-template-columns: 1fr;
+}
+
+/* 설정: 제목 줄에 바로 켜기 스위치 (화면효과 · BGM·효과음) */
+.pp-settings .pp-head-toggle {
+    cursor: pointer;
+}
+
+.pp-settings .pp-head-toggle > span {
+    flex: 1;
+}
+
+.pp-settings .pp-head-toggle > input {
+    flex: none;
+    margin: 0;
+}
+
+/* 작은 그림(LOG 목록 · CG 격자 · 버전 줄): 세로 그림은 얼굴이 남게 위쪽을 기준으로 자른다. 썸네일(thumbs.js)도 같은 기준 */
+.pp-thumb img,
+.pp-album-thumb img,
+.pp-vw-thumb img {
+    object-position: 50% 25%;
+}
+
+/* ═════ LOG 아이콘 버튼 · CG 뷰어 ⋯ 메뉴 · 꺼진 스위치 · QR 판 위로 (2026-11-01) ═════ */
+.pp-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
+
+/* LOG 줄: 전문 · 분기 · 숨기기 = 아이콘 버튼 (이름은 마우스를 올리면) */
+.pp-root .pp-log-read.pp-log-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+/* LOG 스와이프 줄의 지우기 = 작은 휴지통 */
+.pp-root .pp-log-sw-btn.pp-log-sw-del {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+}
+
+/* CG 뷰어: 대표로 · 저장 · 삭제 · 다시 그리기는 ⋯ 안 (⋯ 위로 펼쳐짐) */
+.pp-vw-more-wrap {
+    position: relative;
+    display: inline-flex;
+}
+
+.pp-root .pp-vw-btn.pp-vw-more {
+    width: 38px;
+    padding: 0;
+    justify-content: center;
+}
+
+.pp-vw-menu {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 10px);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    padding: 6px;
+    border: 1px solid rgba(236, 236, 242, .18);
+    border-radius: 12px;
+    background: rgba(14, 12, 18, .95);
+}
+
+.pp-vw-menu[hidden] {
+    display: none;
+}
+
+.pp-root .pp-vw-menu .pp-vw-btn {
+    justify-content: flex-start;
+    width: 100%;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* 꺼진 스위치: 바탕을 글자색으로 옅게 칠하는데, 테마가 입력칸 글자색을 검게 바꾸면 어두운 VN 창에서 안 보였다 → VN 안에서는 VN 글자색으로 */
+html:root body #pp-host input[type="checkbox"].pp-switch.pp-switch:not(#pp-none) {
+    color: var(--pp-ink, #f4f4f8) !important;
+}
+
+/* QR·테마 판은 펼치면 생성 중단·원문 보기 알약(z-index 6) 위로 (시네마에서 그 밑에 깔렸다) */
+/* QR·테마 판: 내용만큼만 넓게, QR 세트 사이는 줄을 나눠 가는 선 (2026-10-31) */
+.pp-root .pp-qr-panel {
+    right: auto;
+    width: max-content;
+    max-width: calc(100% - 240px);
+    z-index: 7;
+}
+
+/* 캐릭터 명단: 이름 고치는 칸 · 번역 전 이름 칸 (2026-11-01) */
+.pp-root .pp-cast-row .pp-cast-alias {
+    width: 100%;
+    height: 32px;
+    margin: 0;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* 캐릭터 명단: 이름 옆 작은 × (명단에서 지우기) */
+.pp-cast-name {
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    cursor: default;
+}
+
+/* 이름: 평소엔 글자처럼, 누르면 고치는 칸 */
+.pp-root .pp-cast-name input.pp-cast-rename:not(#pp-none) {
+    flex: 1;
+    min-width: 0;
+    height: 30px;
+    margin: 0;
+    padding: 0 6px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: transparent !important;
+    color: var(--pp-ink);
+    font-size: 14px;
+    text-overflow: ellipsis;
+}
+
+.pp-root .pp-cast-name input.pp-cast-rename:not(#pp-none):hover {
+    border-color: rgba(236, 236, 242, .2);
+}
+
+.pp-root .pp-cast-name input.pp-cast-rename:not(#pp-none):focus {
+    background-color: rgba(255, 255, 255, .04) !important;
+}
+
+/* 정규식 읽기: 제목·턴 이동 없이, 정규식 화면 크기에 맞춘 창. 크면 무대 거의 전체까지 (2026-11-01) */
+.pp-root .pp-panel.pp-panel-extra {
+    width: fit-content;
+    min-width: min(360px, calc(100% - 48px));
+    max-width: calc(100% - 48px);
+    height: auto;
+    max-height: calc(100% - 48px);
+    gap: 8px;
+    padding: 12px 16px 16px;
+}
+
+.pp-root .pp-panel-extra .pp-extra-head {
+    justify-content: flex-end;
+    padding: 0;
+    border: 0;
+}
+
+.pp-root .pp-panel-extra .pp-extra-view {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+.pp-root.pp-portrait .pp-panel.pp-panel-extra {
+    max-width: calc(100% - 16px);
+    max-height: calc(100% - 16px);
+    padding: 10px;
+}
+
+/* ═════ 폰(세로 화면): 작은 버튼은 보이는 크기 그대로, 누르는 영역만 넓힌다 (2026-11-01) ═════ */
+.pp-root.pp-root.pp-portrait .pp-ans-btn,
+.pp-root.pp-root.pp-portrait .pp-line-nav {
+    position: relative;
+}
+
+/* 문장 이동 버튼에는 예전 배치(양 끝 화살표)의 top·left·right가 남아 있어서, relative가 되면 그 값만큼 밀려났다 */
+.pp-root.pp-root.pp-portrait .pp-line-nav {
+    inset: auto;
+}
+
+.pp-root.pp-root.pp-portrait .pp-ans-btn::before,
+.pp-root.pp-root.pp-portrait .pp-line-nav::before {
+    content: '';
+    position: absolute;
+    inset: -12px -5px;
+}
+
+/* 시네마 세로: 이름표를 다른 테마와 같은 크기로 (가로 화면용 15px 고정이 폰에서 10px대로 작아졌다) */
+.pp-root.pp-root.pp-root.pp-t-cinema.pp-portrait .pp-speaker {
+    font-size: calc(var(--pp-text-size) * var(--pp-phone-text, 1.1) - 2px);
+}
+
+/* 시네마 세로: 상자 없는 상태 표시라 누르는 높이가 낮았다 → 위아래 여백으로 넓히고 글자 자리는 그대로 (스피커도 이 높이를 따른다) */
+.pp-root.pp-root.pp-t-cinema.pp-portrait .pp-pill.pp-info {
+    margin-top: -10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* LOG 줄 ⋯ 메뉴 (분기 · 숨기기 · 여기부터 삭제): 기본은 아래로, 목록 아래쪽 줄은 위로 */
+.pp-log-more-wrap {
+    position: relative;
+    display: inline-flex;
+}
+
+.pp-vw-menu.pp-log-menu {
+    top: calc(100% + 6px);
+    bottom: auto;
+    right: 0;
+    z-index: 5;
+}
+
+.pp-vw-menu.pp-log-menu.pp-up {
+    top: auto;
+    bottom: calc(100% + 6px);
+}
+
+/* ═════ 이 채팅 상태창: 쓰기/쓰지 않기 전환 · 묶음 제목과 구분선 · 명단 4칸 (2026-11-01) ═════ */
+.pp-root .pp-panel-pick {
+    gap: 12px;
+    padding: 22px 26px 18px;
+}
+
+.pp-root.pp-portrait .pp-panel-pick {
+    padding: 18px 16px 14px;
+}
+
+/* 상태창 고르기: 머리 오른쪽 닫기 */
+.pp-panel-pick .pp-panel-head {
+    align-items: center;
+    padding-bottom: 12px;
+}
+
+/* 상태창 쓰기 / 쓰지 않기: 창 폭을 꽉 채우는 두 버튼 */
+.pp-pick-modes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.pp-root .pp-pick-mode-btn {
+    height: 42px;
+    border: 1px solid rgba(236, 236, 242, .25);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--pp-ink);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.pp-root .pp-pick-mode-btn.pp-on {
+    border-color: var(--pp-accent);
+    background: rgb(var(--pp-accent-rgb) / .12);
+    color: var(--pp-accent);
+}
+
+/* 시스템 상태창 안의 캐릭터 명단 · 공략 정보: 옅은 상자로 묶는다 */
+.pp-pick-sub {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .035);
+}
+
+.pp-pick-subtitle {
+    color: var(--pp-ink);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.pp-portrait .pp-pick-sub {
+    padding: 10px;
+}
+
+.pp-root .pp-panel-pick .pp-pick-items {
+    gap: 0;
+}
+
+.pp-pick-sec {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(236, 236, 242, .1);
+}
+
+.pp-pick-sec:first-child {
+    padding-top: 2px;
+    border-top: 0;
+}
+
+.pp-pick-title {
+    color: var(--pp-ink);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.pp-panel-pick .pp-panel-foot {
+    justify-content: flex-end;
+}
+
+.pp-panel-pick .pp-pick-done {
+    white-space: nowrap;
+}
+
+/* 명단 한 줄 = [호감도 스위치] [이름] [시작 관계] [번역 전 이름] */
+.pp-cast-row {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 112px minmax(0, 1.1fr);
+    align-items: center;
+    gap: 8px;
+}
+
+.pp-cast-row.pp-cast-cols {
+    margin-bottom: -4px;
+}
+
+.pp-cast-row.pp-cast-cols > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 호감도를 안 쓰는 채팅(속마음만): 스위치·시작 관계 칸을 빼고 이름 · 번역 전 이름만 */
+.pp-pick-rel.pp-rel-noaff .pp-cast-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+}
+
+.pp-pick-rel.pp-rel-noaff .pp-cast-row > .pp-cast-aff,
+.pp-pick-rel.pp-rel-noaff .pp-cast-row > .pp-pick-rel-sel,
+.pp-pick-rel.pp-rel-noaff .pp-cast-col-aff,
+.pp-pick-rel.pp-rel-noaff .pp-cast-col-start {
+    display: none !important;
+}
+
+/* 세로 화면: 번역 전 이름은 이름 아래 줄 (칸 안 안내 글이 제목을 대신한다) */
+.pp-portrait .pp-cast-row {
+    grid-template-columns: 36px minmax(0, 1fr) 112px;
+}
+
+.pp-portrait .pp-cast-row .pp-cast-alias {
+    grid-column: 2 / -1;
+}
+
+.pp-portrait .pp-cast-col-alias {
+    display: none;
+}
+
+.pp-portrait .pp-pick-rel.pp-rel-noaff .pp-cast-row {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.pp-portrait .pp-pick-rel.pp-rel-noaff .pp-cast-row .pp-cast-alias {
+    grid-column: 1 / -1;
+}
+
+/* 공략 정보: 제목·설명 왼쪽, 버튼 오른쪽 (세로 화면은 설명 아래 넓은 버튼) */
+.pp-pick-traits .pp-tr-head {
+    align-items: center;
+    gap: 12px;
+}
+
+.pp-tr-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.pp-root .pp-tr-btns .pp-tr-make {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+}
+
+.pp-portrait .pp-pick-traits .pp-tr-head {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.pp-portrait .pp-tr-btns {
+    justify-content: stretch;
+}
+
+.pp-portrait .pp-tr-btns .pp-btn {
+    flex: 1;
+    justify-content: center;
+}
+
+.pp-cast-row > .pp-cast-name {
+    display: flex;
+}
+
+/* 공략 정보: 열어 보기 · 속도 분석 버튼을 같은 크기로 */
+.pp-root .pp-tr-btns .pp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1;
+    box-sizing: border-box;
+}
+
+/* LOG: 다른 답변을 미리 보는 중이면 썸네일을 눌러 그 답변의 그림을 크게 */
+.pp-thumb.pp-thumb-open {
+    cursor: zoom-in;
+    outline: 1px solid rgb(var(--pp-accent-rgb) / .6);
+    outline-offset: -1px;
+}
+
+/* 미연시 테두리: 그림자 링 대신 실제 선, 그림자 없음
+   대사창·LOG = 흰 선 3.5px, 상태 버튼·상태창 = 메인 색 선 2.5px(이름표 굵기) */
+.pp-root.pp-root.pp-root.pp-t-retro .pp-dialogue,
+.pp-root.pp-root.pp-root.pp-t-retro .pp-ui > .pp-overlay .pp-frame {
+    border: 3.5px solid #fff !important;
+    box-shadow: none !important;
+    /* 바탕을 테두리 밑까지 깔아야 소수 배율 화면에서 테두리 안쪽에 회색 틈이 안 생긴다 */
+    background-clip: border-box !important;
+}
+
+.pp-root.pp-root.pp-root.pp-t-retro .pp-pill.pp-info,
+.pp-root.pp-root.pp-root.pp-t-retro .pp-pill.pp-info:hover,
+.pp-root.pp-root.pp-root.pp-t-retro .pp-pill.pp-info.pp-open,
+.pp-root.pp-root.pp-root.pp-t-retro .pp-status-drop {
+    /* 이름표와 같은 굵기, 메인 색보다 채도 조금 높게 (앞줄은 이 문법을 못 쓰는 브라우저용) */
+    border: 2.5px solid var(--pp-accent) !important;
+    border-color: oklch(from var(--pp-accent) l calc(c + .035) h) !important;
+    box-shadow: none !important;
+    background-clip: border-box !important;
+}
+
+/* 테두리 두께만큼 안쪽 여백을 줄여 버튼 크기는 그대로 */
+.pp-root.pp-root.pp-root.pp-t-retro .pp-pill.pp-info {
+    padding: 4.5px 15.5px;
+}
+
+/* 미연시 스피커: 알약 테두리를 따라 하지 않고 선 없는 흰 원, 아이콘만 메인 색 (엔진이 알약 모양을 인라인으로 복사해서 !important) */
+.pp-root.pp-root.pp-root.pp-t-retro .pp-pill.pp-sound-btn {
+    border: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    color: var(--pp-accent) !important;
+}
+
+/* 미연시 상태창 바탕: 대사창보다 더 연한 분홍 그라데이션, 살짝 비침 */
+.pp-root.pp-root.pp-root.pp-t-retro .pp-status-drop {
+    background: linear-gradient(to bottom,
+        color-mix(in srgb, color-mix(in srgb, var(--pp-accent) 2%, #fff) 95%, transparent),
+        color-mix(in srgb, color-mix(in srgb, var(--pp-accent) 9%, #fff) 95%, transparent)) !important;
+}
+
+/* ═════ 폰(세로) 대사창 안 위치 통일 (2026-11-01) ═════
+   도구 줄은 대사창 위 끝 +10px, 도구 줄 → 다음 줄 8px. 이름이 상자 밖인 미연시는 도구 줄 아래 8px에 바로 대사 */
+.pp-root.pp-root.pp-root.pp-portrait .pp-dialogue {
+    padding-top: 10px;
+}
+
+.pp-root.pp-root.pp-root.pp-portrait .pp-answer {
+    margin: 0 -6px 8px auto;
+}
+
+/* 아래 그라데이션: 상자가 불투명한 클래식·미연시는 대사창 위 약 40px까지만 (화면 중간부터 어두워지던 것). 대사창 높이가 달라 값도 따로 */
+.pp-root.pp-root.pp-root.pp-portrait.pp-dlg-box .pp-scrim {
+    height: 410px;
+}
+
+.pp-root.pp-root.pp-root.pp-portrait.pp-t-retro .pp-scrim {
+    height: 380px;
+}
+
+/* 클래식 이전/다음 알약: 안쪽 장식 테두리(6px 안쪽)에서 12px 위로. PC도 같이 */
+.pp-root.pp-root.pp-dlg-box:not(.pp-t-retro) .pp-progress {
+    bottom: 18px;
+}
+
+/* 이름 → 대사 간격: 시네마도 다른 테마처럼 12px */
+.pp-root.pp-root.pp-root.pp-t-cinema.pp-portrait .pp-speaker-row {
+    margin-bottom: 12px;
+}
+
+/* 클래식은 안쪽 장식 테두리(6px 안쪽)가 보이는 경계라, 도구 줄도 그 테두리에서 10px 띄운다 */
+.pp-root.pp-root.pp-root.pp-portrait.pp-dlg-box:not(.pp-t-retro) .pp-dialogue {
+    padding-top: 16px;
+}
+
+/* 시네마는 상자가 없어 도구 줄과 이름이 붙어 보였다 → 도구 줄 아래를 조금 더 띄운다 */
+.pp-root.pp-root.pp-root.pp-t-cinema.pp-portrait .pp-answer {
+    margin-bottom: 14px;
+}
+
+/* 세로 화면: 도구 줄이 숨을 때(답장 생성 중 등)도 자리는 남긴다.
+   빠지면 대사(… 깜빡임)가 그 자리로 올라와 생성 중단 버튼과 겹쳤고, 글 시작 위치도 들쭉날쭉했다 */
+.pp-root.pp-root.pp-root.pp-portrait .pp-answer {
+    min-height: 38px;
+}
+
+.pp-root.pp-root.pp-root.pp-portrait .pp-answer[hidden] {
+    display: flex !important;
+    visibility: hidden;
+}
+
+/* 폰 도구 줄 미세 조정: 클래식은 3px 아래로, 시네마는 3px 위로 */
+.pp-root.pp-root.pp-root.pp-portrait.pp-dlg-box:not(.pp-t-retro) .pp-dialogue {
+    padding-top: 19px;
+}
+
+.pp-root.pp-root.pp-root.pp-t-cinema.pp-portrait .pp-dialogue {
+    padding-top: 7px;
+}
+
+/* 맨 앞 칸(여러 장 고르기)이 없는 그림 줄은 첫 그림에 왼쪽 여백 */
+.pp-vw-strip > .pp-vw-thumb:first-child {
+    margin-left: 6px;
+}
+
+/* 세로 화면 그림 크게 보기: 양옆 88px(가로 화면의 화살표 자리)를 비워서 그림이 화면 폭의 절반쯤으로 작게 나왔다.
+   그림을 거의 꽉 채우고 화살표는 그림 위에 겹친다. 위는 닫기 버튼 아래, 아래는 버전 줄 · 아래 막대 위까지 */
+.pp-root.pp-root.pp-portrait .pp-vw-stage {
+    inset: 76px 8px 170px;
+}
+
+.pp-root.pp-root.pp-portrait .pp-vw-prev {
+    left: 10px;
+}
+
+.pp-root.pp-root.pp-portrait .pp-vw-next {
+    right: 10px;
+}
+
+/* 세로 화면: 그림 위에 겹치는 화살표 원을 조금 작게 (화살표 아이콘 크기는 그대로) */
+.pp-root.pp-root.pp-portrait .pp-vw-nav {
+    width: 40px;
+    height: 40px;
+}
+
+/* 이 채팅 상태창: 커스텀 항목의 순서 바꾸기 ‹ › */
+.pp-pick-move {
+    margin: 0 -2px 0 0;
+    font-size: 15px;
+}
+
+/* 알림(원문으로 보여요 등)은 선택지·입력칸보다 위에 (모든 테마) */
+.pp-root.pp-root .pp-toast {
+    z-index: 8;
+}
+
+/* 패널 아래 줄(◀ 이전 턴 · n/n · 다음 턴 ▶ · 이 턴 처음부터 보기): 글자가 두 줄로 꺾이지 않게.
+   좁은 세로 화면에서는 이동 줄 한 줄 + 큰 버튼 한 줄로 나눈다 */
+.pp-root .pp-panel-foot .pp-nav,
+.pp-root .pp-panel-foot .pp-count,
+.pp-root .pp-panel-foot .pp-btn-accent {
+    white-space: nowrap;
+}
+
+.pp-root.pp-root.pp-portrait .pp-panel-foot {
+    flex-wrap: wrap;
+    row-gap: 10px;
+}
+
+.pp-root.pp-root.pp-portrait .pp-panel-foot .pp-nav-group {
+    flex: 1 1 100%;
+    justify-content: space-between;
+}
+
+.pp-root.pp-root.pp-portrait .pp-panel-foot .pp-btn-accent {
+    flex: 1 1 100%;
+}
